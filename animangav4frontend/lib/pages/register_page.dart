@@ -1,3 +1,4 @@
+import 'package:animangav4frontend/pages/mangas_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +22,10 @@ class RegisterPage extends StatelessWidget {
             if (state is AuthenticationNotAuthenticated) {
               return _AuthForm();
             }
-            Navigator.of(context).pop();
+            Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MangasPage()),
+                  );
             return Text('Se devería volver para atras');
           },
         ),

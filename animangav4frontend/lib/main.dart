@@ -1,3 +1,4 @@
+import 'package:animangav4frontend/pages/mangas_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,6 +34,11 @@ class MyAnonaMousePdf extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.teal,
           appBarTheme: AppBarTheme(backgroundColor: Colors.teal)),
+          routes: {
+        '/manga': (context) => const MangasPage(),
+
+        
+      },
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state is AuthenticationAuthenticated) {

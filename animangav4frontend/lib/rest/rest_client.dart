@@ -41,7 +41,7 @@ class RestClient {
   final _httpClient =
       InterceptedClient.build(interceptors: [HeadersApiInterceptor()]);
 
-  Future<dynamic> get(String url) async {
+  Future<dynamic> get(String url, {required Map<String, String> headers}) async {
     try {
       Uri uri = Uri.parse(ApiConstants.baseUrl + url);
 
