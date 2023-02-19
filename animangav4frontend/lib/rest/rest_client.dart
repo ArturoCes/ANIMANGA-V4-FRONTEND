@@ -1,14 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:injectable/injectable.dart';
 import 'package:http/http.dart' as http;
 
-import '../main.dart';
-import '../services/localstorage_service.dart';
 
 class ApiConstants {
   static String baseUrl = "http://localhost:8080";
@@ -45,7 +41,7 @@ class RestClient {
     try {
       Uri uri = Uri.parse(ApiConstants.baseUrl + url);
 
-      final response = await _httpClient.get(uri);
+      final response = await _httpClient.get(uri, headers: headers);
       var responseJson = _response(response);
       return responseJson;
     } on SocketException catch (ex) {

@@ -60,26 +60,26 @@ class Manga {
     required this.id,
     required this.name,
     required this.description,
-     this.releaseDate,
-     this.posterPath,
-     this.author,
+    required this.releaseDate,
+    required this.posterPath,
+    required this.author,
     required this.categories,
   });
   late final String id;
   late final String name;
   late final String description;
-  late final Null releaseDate;
-  late final Null posterPath;
-  late final Null author;
+  late final String releaseDate;
+  late final String posterPath;
+  late final String author;
   late final List<dynamic> categories;
   
   Manga.fromJson(Map<String, dynamic> json){
     id = json['id'];
     name = json['name'];
     description = json['description'];
-    releaseDate = null;
-    posterPath = null;
-    author = null;
+    releaseDate = json['releaseDate'];
+    posterPath = json ['posterPath'];
+    author = json ['author'];
     categories = List.castFrom<dynamic, dynamic>(json['categories']);
   }
 

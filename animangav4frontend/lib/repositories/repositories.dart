@@ -1,2 +1,2 @@
-export 'AuthenticationRepository.dart';
-export 'mangasRepository.dart';
+export 'authenticationrepository.dart';
+export 'mangasrepository.dart';

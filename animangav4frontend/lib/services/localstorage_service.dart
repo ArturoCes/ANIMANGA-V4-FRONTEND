@@ -4,46 +4,26 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/*@Order(-2)
-@module
-abstract class InjectableSharedPreferences {
-  
-  @preResolve  
-  Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
-}*/
 
-//@Order(-1)
-//@singleton
 class LocalStorageService {
   const LocalStorageService();
 
   static late LocalStorageService _instance;
   static late SharedPreferences _preferences;
 
-  /*@FactoryMethod(preResolve: true)
-  static Future<LocalStorageService> create() async {
-    _preferences = await SharedPreferences.getInstance();
 
-    return Future.value(LocalStorageService());
-
-  }*/
-
-  //LocalStorageService() {
-  //_preferences = GetIt.I.get<SharedPreferences>();
-  //}
 
   static Future<LocalStorageService> getInstance() async {
     print("Aquí se entra");
 
-    //if (_preferences == null) {
+   
     _preferences = await SharedPreferences.getInstance();
-    //}
 
     print("Aquí se llega");
 
-    //if (_instance == null) {
+   
     _instance = LocalStorageService();
-    //}
+
 
     return _instance;
   }

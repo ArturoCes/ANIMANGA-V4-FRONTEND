@@ -1,17 +1,14 @@
 import 'package:equatable/equatable.dart';
 
+import 'login_dto.dart';
+
 abstract class LoginEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
 class LoginInWithUsernameButtonPressed extends LoginEvent {
-  final String username;
-  final String password;
+  final LoginDto loginDto;
 
-  LoginInWithUsernameButtonPressed(
-      {required this.username, required this.password});
-
-  @override
-  List<Object> get props => [username, password];
+  LoginInWithUsernameButtonPressed(this.loginDto);
 }

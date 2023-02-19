@@ -5,6 +5,9 @@ import 'package:animangav4frontend/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:get_storage/get_storage.dart';
+
+import '../utils/styles.dart';
 
 class MangasPage extends StatefulWidget {
   const MangasPage({Key? key}) : super(key: key);
@@ -14,15 +17,13 @@ class MangasPage extends StatefulWidget {
 }
 
 class _MangasPageState extends State<MangasPage> {
-  final mangaService = GetIt.instance<MangasService>();
+  late MangaService mangaService;
   late MangasBloc _mangasbloc;
-
-
+  final box = GetStorage();
   @override
   void initState() {
-    
-    _mangasbloc = MangasBloc(mangaService)
-      ..add(FindAllMangas());
+    mangaService = GetIt.instance<MangaService>();
+    _mangasbloc = MangasBloc(mangaService)..add(FindAllMangas());
     super.initState();
   }
 
@@ -52,17 +53,11 @@ class _MangasPageState extends State<MangasPage> {
                 scrollDirection: Axis.vertical,
                 child: Column(
                   children: [
-                
                     Container(
                       margin: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        
                       ),
-                      
-                          
-                        
-                      
                     ),
                   ],
                 ),
@@ -83,38 +78,75 @@ class _MangasPageState extends State<MangasPage> {
       scrollDirection: Axis.vertical,
       child: Column(
         children: [
-      
-      
-          
           Container(
             margin: const EdgeInsets.only(bottom: 200),
             child: GridView.builder(
-              physics: const BouncingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: mangas.length,
-               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: (0.78) ),
-              itemBuilder: (context, index) {
-                
-      
-                
-                return Center(child: _mangaItem(mangas.elementAt(index)));
-              }
-            ),
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: mangas.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, childAspectRatio: (0.78)),
+                itemBuilder: (context, index) {
+                  return Center(child: _mangaItem(mangas.elementAt(index)));
+                }),
           ),
         ],
       ),
     );
   }
 
-  Widget _mangaItem(Manga manga) {
+Widget _mangaItem(Manga manga) {
     return
-         Container(
-             child: Text('${manga.name}'),
-        
+          GestureDetector(
+            onTap: () {
 
+            },
+            child: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: AnimangaStyle.quaternaryColor,
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(14),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.network(
+                          manga.posterPath,
+                        /*   headers: {
+                            'Authorization':
+                                '${box.read('token')}'
+                          },*/
+                          width: MediaQuery.of(context).size.width/2,
+                          height: MediaQuery.of(context).size.width/2.5,
+                          fit: BoxFit.cover,
+                        )),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width/8,
+                    width:  MediaQuery.of(context).size.width/2.6,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          utf8.decode(manga.name.codeUnits),
+                          style: AnimangaStyle.textCustom(
+                              AnimangaStyle.blackColor, AnimangaStyle.textSizeTwo),
+                          textAlign: TextAlign.start,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+      
+  
     );
   }
-
- 
-  
 }

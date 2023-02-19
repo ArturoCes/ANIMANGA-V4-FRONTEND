@@ -5,9 +5,9 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:animangav4frontend/repositories/AuthenticationRepository.dart'
+import 'package:animangav4frontend/repositories/authenticationrepository.dart'
     as _i4;
-import 'package:animangav4frontend/repositories/mangasRepository.dart' as _i5;
+import 'package:animangav4frontend/repositories/mangasrepository.dart' as _i5;
 import 'package:animangav4frontend/rest/rest_client.dart' as _i3;
 import 'package:animangav4frontend/services/authentication_service.dart' as _i6;
 import 'package:animangav4frontend/services/mangas_service.dart' as _i7;

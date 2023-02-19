@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:animangav4frontend/blocs/login/login_dto.dart';
 import 'package:animangav4frontend/models/register.dart';
 import 'package:animangav4frontend/rest/rest_client.dart';
 import 'package:get_it/get_it.dart';
@@ -14,14 +15,14 @@ class AuthenticationRepository {
 
   AuthenticationRepository() {
     _client = GetIt.I.get<RestClient>();
-    //_client = RestClient();
+  
   }
 
-  Future<dynamic> doLogin(String username, String password) async {
+  Future<dynamic> doLogin(LoginDto loginDto) async {
     String url = "/auth/login";
 
     var jsonResponse = await _client.post(
-        url, LoginRequest(username: username, password: password));
+        url, loginDto);
     return LoginResponse.fromJson(jsonDecode(jsonResponse));
   }
 

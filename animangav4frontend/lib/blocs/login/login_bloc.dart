@@ -1,21 +1,16 @@
-import 'package:animangav4frontend/blocs/authentication/authentication_bloc.dart';
-import 'package:animangav4frontend/blocs/authentication/authentication_event.dart';
 import 'package:animangav4frontend/blocs/login/login_event.dart';
 import 'package:animangav4frontend/blocs/login/login_state.dart';
 import 'package:animangav4frontend/services/authentication_service.dart';
 import 'package:bloc/bloc.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../exceptions/authentication_exception.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final AuthenticationBloc _authenticationBloc;
   final AuthenticationService _authenticationService;
-
-  LoginBloc(AuthenticationBloc authenticationBloc,
-      AuthenticationService authenticationService)
-      : assert(authenticationBloc != null),
-        assert(authenticationService != null),
-        _authenticationBloc = authenticationBloc,
+  final box = GetStorage();
+  LoginBloc(AuthenticationService authenticationService)
+      : assert(authenticationService != null),
         _authenticationService = authenticationService,
         super(LoginInitial()) {
     on<LoginInWithUsernameButtonPressed>(__onLogingInWithEmailButtonPressed);
@@ -27,17 +22,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async {
     emit(LoginLoading());
     try {
-      final user = await _authenticationService.signInWithEmailAndPassword(
-          event.username, event.password);
+      final user = await _authenticationService
+          .signInWithEmailAndPassword(event.loginDto);
       if (user != null) {
-        _authenticationBloc.add(UserLoggedIn(user: user));
+        box.write('token', user.accessToken);
         emit(LoginSuccess());
-        emit(LoginInitial());
-      } else {
-        emit(LoginFailure(error: 'Something very weird just happened'));
       }
-    } on AuthenticationException catch (e) {
-      emit(LoginFailure(error: e.message));
     } on Exception catch (err) {
       emit(LoginFailure(error: 'An unknown error occurred ${err.toString()}'));
     }

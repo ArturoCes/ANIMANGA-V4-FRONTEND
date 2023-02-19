@@ -22,11 +22,8 @@ class RegisterPage extends StatelessWidget {
             if (state is AuthenticationNotAuthenticated) {
               return _AuthForm();
             }
-            Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MangasPage()),
-                  );
-            return Text('Se devería volver para atras');
+            
+            return Text('Se debería volver para atras');
           },
         ),
       ),
@@ -89,6 +86,11 @@ class __RegisterFormState extends State<_RegisterForm> {
       listener: (context, state) {
         if (state is RegisterFailure) {
           _showError(state.error);
+        } else if(state is RegisterSuccess) {
+          Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MangasPage()),
+                  );
         }
       },
       child: BlocBuilder<RegisterBloc, RegisterState>(

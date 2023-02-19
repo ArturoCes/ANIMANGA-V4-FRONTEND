@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import '../models/manga.dart';
-import '../repositories/mangasRepository.dart';
+import '../repositories/mangasrepository.dart';
 import 'localstorage_service.dart';
 
 //import '../exceptions/exceptions.dart';
@@ -11,6 +11,7 @@ abstract class MangasService {
   Future<List<Manga>> findAll();
 }
 //@Singleton(as: AuthenticationService)
+@Order(3)
 @singleton
 class MangaService extends MangasService {
   late MangasRepository _mangasRepository;
@@ -26,8 +27,8 @@ class MangaService extends MangasService {
   @override
   Future<List<Manga>> findAll() async {
     dynamic response = await _mangasRepository.findAll();
-    if (response.statusCode == 200) {
-      return MangaResponse.fromJson(json.decode(response.body)).content;
+    if (response != null) {
+      return response.content;
     } else {
       throw Exception('Error al cargar los Mangas');
     }
