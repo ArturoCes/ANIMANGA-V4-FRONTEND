@@ -16,7 +16,6 @@ dependencies:
   http_interceptor: ^1.0.1
   shared_preferences: ^2.0.17
   flutter_svg: ^1.0.3
-  jiffy: ^5.0.0
   flutter:
     sdk: flutter
 

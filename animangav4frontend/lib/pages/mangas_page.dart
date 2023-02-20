@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:animangav4frontend/blocs/mangas/mangas_bloc.dart';
 import 'package:animangav4frontend/models/manga.dart';
-import 'package:animangav4frontend/pages/detail_page.dart';
 import 'package:animangav4frontend/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -103,17 +102,17 @@ class _MangasPageState extends State<MangasPage> {
         Navigator.pushNamed(context, "/detail");
       },
       child: Container(
-        margin: const EdgeInsets.all(8),
+        margin: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: AnimangaStyle.quaternaryColor,
+          borderRadius: BorderRadius.circular(10),
+          color: Color.fromARGB(255, 82, 1, 68),
         ),
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(14),
               child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(2.0),
                   child: Image.network(
                     manga.posterPath,
                     /*   headers: {
@@ -122,7 +121,7 @@ class _MangasPageState extends State<MangasPage> {
                           },*/
                     width: MediaQuery.of(context).size.width / 2,
                     height: MediaQuery.of(context).size.width / 2.5,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fitWidth,
                   )),
             ),
             SizedBox(
@@ -135,7 +134,8 @@ class _MangasPageState extends State<MangasPage> {
                   Text(
                     utf8.decode(manga.name.codeUnits),
                     style: AnimangaStyle.textCustom(
-                        AnimangaStyle.blackColor, AnimangaStyle.textSizeTwo),
+                        Color.fromARGB(255, 255, 255, 255),
+                        AnimangaStyle.textSizeFour),
                     textAlign: TextAlign.start,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

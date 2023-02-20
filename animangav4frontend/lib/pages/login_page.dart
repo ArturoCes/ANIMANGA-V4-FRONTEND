@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: const Text(
                       'No',
                       style: TextStyle(
-                        color: Color.fromARGB(255, 104, 4, 108),
+                        color: Color.fromARGB(255, 245, 244, 245),
                       ),
                     ),
                   ),
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: const Text(
                         'Si',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 104, 4, 108),
+                          color: Color.fromARGB(255, 245, 244, 245),
                         ),
                       )),
                 ],
@@ -145,13 +145,13 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Image.asset(
+                Image.asset(
                   'assets/images/logo.png',
-                  width: 250,
+                  width: 150,
                 ),
                 Container(
                   height: 50,
-                  margin: const EdgeInsets.only(top: 50),
+                  margin: const EdgeInsets.only(top: 70),
                   child: TextFormField(
                     style: AnimangaStyle.textCustom(
                         Color.fromARGB(255, 168, 16, 238),
@@ -167,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                           AnimangaStyle.formColor, AnimangaStyle.textSizeTwo),
                       prefixIcon: const Padding(
                         padding: EdgeInsets.only(left: 5),
-                        child: Icon(Icons.mail_outline),
+                        child: Icon(Icons.email_rounded),
                       ),
                       hintText: 'correo electrónico',
                     ),
@@ -201,10 +201,10 @@ class _LoginPageState extends State<LoginPage> {
                             _toggle();
                           },
                           child: iconpass),
-                      suffixIconColor: Colors.white,
+                      suffixIconColor: Color.fromARGB(255, 160, 37, 172),
                       prefixIcon: const Padding(
                         padding: EdgeInsets.only(left: 5),
-                        child: Icon(Icons.lock_outlined),
+                        child: Icon(Icons.lock_clock_rounded),
                       ),
                       hintText: 'Contraseña',
                     ),
@@ -217,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 180),
+                  margin: const EdgeInsets.only(top: 10),
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(100)),
                   padding: const EdgeInsets.symmetric(vertical: 20),

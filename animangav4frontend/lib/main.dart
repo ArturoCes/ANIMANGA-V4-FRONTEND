@@ -1,17 +1,9 @@
-import 'package:animangav4frontend/pages/detail_page.dart';
 import 'package:animangav4frontend/pages/mangas_page.dart';
 import 'package:animangav4frontend/pages/register_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
-
-import 'blocs/authentication/authentication_bloc.dart';
-import 'blocs/authentication/authentication_event.dart';
-import 'blocs/authentication/authentication_state.dart';
 import 'config/locator.dart';
-import 'pages/home_page.dart';
 import 'pages/login_page.dart';
-import 'services/authentication_service.dart';
 
 Future<void> main() async {
   await GetStorage.init();
@@ -38,7 +30,7 @@ class MyApp extends StatelessWidget {
           '/login': (context) => const LoginPage(),
           '/manga': (context) => const MangasPage(),
           '/register': (context) => RegisterPage(),
-          '/detail': (context) => const DetailMangaPage(manga: manga),
+          //    '/detail': (context) => const DetailMangaPage(manga: manga),
         });
   }
 }

@@ -5,10 +5,9 @@ import 'package:http_interceptor/http_interceptor.dart';
 import 'package:injectable/injectable.dart';
 import 'package:http/http.dart' as http;
 
-
 class ApiConstants {
-  static String baseUrl = "http://localhost:8080";
-  //static String baseUrl = "http://10.0.2.2:8080";
+  //static String baseUrl = "http://localhost:8080";
+  static String baseUrl = "http://10.0.2.2:8080";
 }
 
 class HeadersApiInterceptor implements InterceptorContract {
@@ -37,7 +36,8 @@ class RestClient {
   final _httpClient =
       InterceptedClient.build(interceptors: [HeadersApiInterceptor()]);
 
-  Future<dynamic> get(String url, {required Map<String, String> headers}) async {
+  Future<dynamic> get(String url,
+      {required Map<String, String> headers}) async {
     try {
       Uri uri = Uri.parse(ApiConstants.baseUrl + url);
 
