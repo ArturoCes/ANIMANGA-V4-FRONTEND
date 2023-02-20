@@ -9,7 +9,8 @@ class AnimangaStyle {
   static const Color quaternaryColor = Color(0xFF404040);
   static const Color formColor = Color.fromARGB(255, 160, 20, 207);
   static const Color redColor = Color(0xFFF35050);
-  static Color greyBoxColor = Color.fromARGB(255, 255, 255, 255).withOpacity(0.6);   
+  static Color greyBoxColor =
+      Color.fromARGB(255, 255, 255, 255).withOpacity(0.6);
   static const Color whiteColor = Color(0xFFFFFFFF);
   static const Color blackColor = Color(0xFF000000);
 
@@ -40,12 +41,10 @@ class AnimangaStyle {
         fontWeight: FontWeight.w500,
         fontSize: fSize,
       );
-  
-  static TextStyle get textPrincipal => GoogleFonts.getFont(
-        'Mohave',
-        color: AnimangaStyle.whiteColor,
-        fontWeight: FontWeight.w500,
-        fontSize: AnimangaStyle.textSizeSix,
-        height: 1
-      );
+
+  static TextStyle get textPrincipal => GoogleFonts.getFont('Mohave',
+      color: AnimangaStyle.whiteColor,
+      fontWeight: FontWeight.w500,
+      fontSize: AnimangaStyle.textSizeSix,
+      height: 1);
 }
