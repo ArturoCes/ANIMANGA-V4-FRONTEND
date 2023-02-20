@@ -25,7 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       final user = await _authenticationService
           .signInWithEmailAndPassword(event.loginDto);
       if (user != null) {
-        box.write('token', user.accessToken);
+        box.write('token', user.token);
         emit(LoginSuccess());
       }
     } on Exception catch (err) {

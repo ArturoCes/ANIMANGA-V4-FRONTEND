@@ -11,11 +11,12 @@ class MangasInitial extends MangasState {}
 
 class FindAllMangasSuccess extends MangasState {
   final List<Manga> mangas;
+  final int pagesize; 
 
-  const FindAllMangasSuccess(this.mangas);
+  const FindAllMangasSuccess(this.mangas, this.pagesize);
 
   @override
-  List<Object> get props => [mangas];
+  List<Object> get props => [mangas,pagesize];
 }
 
 class FindAllMangasError extends MangasState {

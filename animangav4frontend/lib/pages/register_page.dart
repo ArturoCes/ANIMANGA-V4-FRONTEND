@@ -1,232 +1,368 @@
-import 'package:animangav4frontend/pages/mangas_page.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
+import 'package:animangav4frontend/blocs/register/bloc/register_bloc.dart';
+import 'package:animangav4frontend/blocs/register/bloc/register_dto.dart';
+import 'package:animangav4frontend/config/locator.dart';
+import 'package:animangav4frontend/models/errors.dart';
+import 'package:animangav4frontend/pages/login_page.dart';
+import 'package:animangav4frontend/services/authentication_service.dart';
+import 'package:animangav4frontend/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_storage/get_storage.dart';
 
-import '../blocs/blocs.dart';
-import '../config/locator.dart';
-import '../services/services.dart';
-import 'pages.dart';
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
-class RegisterPage extends StatelessWidget {
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController verifyPasswordController =TextEditingController();
+  
+ late AuthenticationService authenticationService;
+  bool _obscureText = true;
+  Icon iconpass = const Icon(Icons.remove_red_eye_outlined);
+  final box = GetStorage();
+
+  @override
+  void initState() {
+    super.initState();
+     authenticationService = getIt<JwtAuthenticationService>();
+  }
+
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            content: const Text(
+              '¿Deseas salir de la aplicación?',
+              style: TextStyle(
+                color: AnimangaStyle.whiteColor,
+              ),
+            ),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text(
+                      'No',
+                      style: TextStyle(
+                         color: Color.fromARGB(255, 127, 1, 143),
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                      onPressed: () => exit(0),
+                      child: const Text(
+                        'Si',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 127, 1, 143),
+                        ),
+                      )),
+                ],
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Register'),
-      ),
-      body: SafeArea(
-        minimum: const EdgeInsets.all(16),
-        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          builder: (context, state) {
-            if (state is AuthenticationNotAuthenticated) {
-              return _AuthForm();
-            }
+    return BlocProvider(
+        create: (context) {
+          return RegisterBloc(authenticationService);
+        },
+        child: WillPopScope(
+          onWillPop: _onWillPop,
+          child: Scaffold(
+              backgroundColor: Color.fromARGB(255, 255, 255, 255),
+              body: RefreshIndicator(
+                  onRefresh: () async {},
+                  child: SingleChildScrollView(child: _createBody(context)))),
+        ));
+  }
+
+  Widget _createBody(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 70.0),
+      child: Column(children: [
+        BlocConsumer<RegisterBloc, RegisterState>(listenWhen: (context, state) {
+          return state is RegisterSuccess || state is RegisterFailure;
+        }, listener: (context, state) {
+          if (state is RegisterSuccess) {
             
-            return Text('Se debería volver para atras');
-          },
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+            );
+          } else if (state is RegisterFailure) {
+            _showSnackbar(context, state.error);
+          }
+        }, buildWhen: (context, state) {
+          return state is RegisterInitial || state is RegisterLoading;
+        }, builder: (ctx, state) {
+          if (state is RegisterInitial) {
+            return buildF(ctx);
+          } else if (state is RegisterLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return buildF(ctx);
+          }
+        }),
+      ]),
+    );
+  }
+
+  void _showSnackbar(BuildContext context, ErrorResponse error) {
+    final snackBar = SnackBar(
+      duration: const Duration(seconds: 4),
+      content: SizedBox(
+        height: 150,
+        child: Column(
+          children: [
+            Text(error.mensaje),
+            for (SubErrores e in error.subErrores) Text(e.mensaje)
+          ],
         ),
       ),
     );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-}
 
-class _AuthForm extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    //final authService = RepositoryProvider.of<AuthenticationService>(context);
-    final authService = getIt<JwtAuthenticationService>();
-    final authBloc = BlocProvider.of<AuthenticationBloc>(context);
-
-    return Container(
-      alignment: Alignment.center,
-      child: BlocProvider<RegisterBloc>(
-        create: (context) => RegisterBloc(authBloc, authService),
-        child: _RegisterForm(),
-      ),
-    );
-  }
-}
-
-class _RegisterForm extends StatefulWidget {
-  @override
-  __RegisterFormState createState() => __RegisterFormState();
-}
-
-class __RegisterFormState extends State<_RegisterForm> {
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _verifyPasswordController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _fullNameController = TextEditingController();
-  bool _autoValidate = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final _registerBloc = BlocProvider.of<RegisterBloc>(context);
-
-    _onRegisterButtonPressed() {
-      if (_key.currentState!.validate()) {
-        _registerBloc.add(RegisterButtonPressed(
-          username: _usernameController.text,
-          password: _passwordController.text,
-          verifyPassword: _verifyPasswordController.text,
-          email: _emailController.text,
-          fullName: _fullNameController.text,
-        ));
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+      if (_obscureText) {
+        iconpass = const Icon(Icons.remove_red_eye_outlined);
       } else {
-        setState(() {
-          _autoValidate = true;
-        });
+        iconpass = const Icon(Icons.remove_red_eye);
       }
-    }
-
-    return BlocListener<RegisterBloc, RegisterState>(
-      listener: (context, state) {
-        if (state is RegisterFailure) {
-          _showError(state.error);
-        } else if(state is RegisterSuccess) {
-          Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MangasPage()),
-                  );
-        }
-      },
-      child: BlocBuilder<RegisterBloc, RegisterState>(
-        builder: (context, state) {
-          if (state is RegisterLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return Form(
-            key: _key,
-            autovalidateMode: _autoValidate
-                ? AutovalidateMode.always
-                : AutovalidateMode.disabled,
-            child: SingleChildScrollView(
-              child: Column(
-                //crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 16),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: 'Username',
-                        filled: true,
-                        isDense: true,
-                      ),
-                      controller: _usernameController,
-                      keyboardType: TextInputType.emailAddress,
-                      autocorrect: false,
-                      validator: (value) {
-                        if (value == null) {
-                          return 'User Name is required.';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 16),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        filled: true,
-                        isDense: true,
-                      ),
-                      obscureText: true,
-                      controller: _passwordController,
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Password is required.';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 16),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Verify Password',
-                        filled: true,
-                        isDense: true,
-                      ),
-                      obscureText: true,
-                      controller: _verifyPasswordController,
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Verify Password is required.';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 16),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        filled: true,
-                        isDense: true,
-                      ),
-                      controller: _emailController,
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Email is required.';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 16),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Full Name',
-                        filled: true,
-                        isDense: true,
-                      ),
-                      controller: _fullNameController,
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Full Name is required.';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  //RaisedButton(
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(40),
-                    ),
-                    //color: Theme.of(context).primaryColor,
-                    //textColor: Colors.white,
-                    //padding: const EdgeInsets.all(16),
-                    //shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(8.0)),
-                    child: Text('REGISTER'),
-                    onPressed: state is RegisterLoading
-                        ? () {}
-                        : _onRegisterButtonPressed,
-                  )
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
+    });
   }
 
-  void _showError(String error) {
-    /*Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(error),
-      backgroundColor: Theme.of(context).errorColor,
-    ));*/
-
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+  Widget buildF(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.only(top: 60),
+          width: 300,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 250,
+                ),
+                Container(
+                  height: 50,
+                  margin: const EdgeInsets.only(top: 50),
+                  child: TextFormField(
+                    style: AnimangaStyle.textCustom(
+                        Color.fromARGB(255, 140, 14, 154), AnimangaStyle.textSizeTwo),
+                    controller: usernameController,
+                    textAlignVertical: TextAlignVertical.bottom,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AnimangaStyle.greyBoxColor,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                      hintStyle: AnimangaStyle.textCustom(
+                          AnimangaStyle.formColor, AnimangaStyle.textSizeTwo),
+                      hintText: 'Nombre de usuario',
+                    ),
+                    onSaved: (String? value) {},
+                    validator: (value) {
+                      return (value == null || value.isEmpty)
+                          ? 'Escribe un nombre de usuario'
+                          : null;
+                    },
+                  ),
+                ),
+                Container(
+                  height: 50,
+                  margin: const EdgeInsets.only(top: 10),
+                  child: TextFormField(
+                    style: AnimangaStyle.textCustom(
+                         Color.fromARGB(255, 140, 14, 154), AnimangaStyle.textSizeTwo),
+                    controller: nameController,
+                    textAlignVertical: TextAlignVertical.bottom,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AnimangaStyle.greyBoxColor,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                      hintStyle: AnimangaStyle.textCustom(
+                          AnimangaStyle.formColor, AnimangaStyle.textSizeTwo),
+                      hintText: 'Nombre',
+                    ),
+                    onSaved: (String? value) {},
+                    validator: (value) {
+                      return (value == null || value.isEmpty)
+                          ? 'Escribe tu nombre'
+                          : null;
+                    },
+                  ),
+                ),              
+                Container(
+                  height: 50,
+                  margin: const EdgeInsets.only(top: 10),
+                  child: TextFormField(
+                    style: AnimangaStyle.textCustom(
+                       Color.fromARGB(255, 140, 14, 154), AnimangaStyle.textSizeTwo),
+                    controller: emailController,
+                    textAlignVertical: TextAlignVertical.bottom,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AnimangaStyle.greyBoxColor,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                      hintStyle: AnimangaStyle.textCustom(
+                          AnimangaStyle.formColor, AnimangaStyle.textSizeTwo),
+                      hintText: 'correo electrónico',
+                    ),
+                    onSaved: (String? value) {},
+                    validator: (String? value) {
+                      return (value == null || !value.contains('@'))
+                          ? 'El correo debe contener una @'
+                          : null;
+                    },
+                  ),
+                ),
+                Container(
+                  height: 50,
+                  margin: const EdgeInsets.only(top: 10),
+                  child: TextFormField(
+                    style: AnimangaStyle.textCustom(
+                        Color.fromARGB(255, 140, 14, 154), AnimangaStyle.textSizeTwo),
+                    controller: passwordController,
+                    obscureText: _obscureText,
+                    textAlignVertical: TextAlignVertical.bottom,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AnimangaStyle.greyBoxColor,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                      suffixIcon: GestureDetector(
+                          onTap: () {
+                            _toggle();
+                          },
+                          child: iconpass),
+                      suffixIconColor: Colors.white,
+                      hintStyle: AnimangaStyle.textCustom(
+                          AnimangaStyle.formColor, AnimangaStyle.textSizeTwo),
+                      hintText: 'Contraseña',
+                    ),
+                    onSaved: (String? value) {},
+                    validator: (value) {
+                      return (value == null || value.isEmpty)
+                          ? 'Escribe una contraseña'
+                          : null;
+                    },
+                  ),
+                ),
+                Container(
+                  height: 50,
+                  margin: const EdgeInsets.only(top: 10),
+                  child: TextFormField(
+                    style: AnimangaStyle.textCustom(
+                         Color.fromARGB(255, 140, 14, 154), AnimangaStyle.textSizeTwo),
+                    controller: verifyPasswordController,
+                    obscureText: _obscureText,
+                    textAlignVertical: TextAlignVertical.bottom,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AnimangaStyle.greyBoxColor,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                      suffixIcon: GestureDetector(
+                          onTap: () {
+                            _toggle();
+                          },
+                          child: iconpass),
+                      suffixIconColor: Colors.white,
+                      hintStyle: AnimangaStyle.textCustom(
+                          AnimangaStyle.formColor, AnimangaStyle.textSizeTwo),
+                      hintText: 'Confirmar contraseña',
+                    ),
+                    onSaved: (String? value) {},
+                    validator: (value) {
+                      return (value == null || value.isEmpty)
+                          ? 'Escribe tu contraseña nuevamente'
+                          : null;
+                    },
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 20),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  width: 300,
+                  height: 80,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: AnimangaStyle.primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        elevation: 15.0,
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          final registerDto = RegisterDto(
+                              username: usernameController.text,
+                              fullName: nameController.text,
+                              email: emailController.text,
+                              password: passwordController.text,
+                              verifyPassword: verifyPasswordController.text,
+                              );
+                          BlocProvider.of<RegisterBloc>(context)
+                              .add(RegisterWithUsernameButtonPressed(registerDto));
+                        }
+                      },
+                      child: Text(
+                        'Registrarse',
+                        style: AnimangaStyle.textCustom(
+                            AnimangaStyle.whiteColor, AnimangaStyle.textSizeThree),
+                        textAlign: TextAlign.center,
+                      )),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: GestureDetector(
+                    child: Text(
+                      '¿Tienes una cuenta? Inicia sesión',
+                      style: AnimangaStyle.textCustom(
+                           Color.fromARGB(255, 140, 14, 154), AnimangaStyle.textSizeThree),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/login');
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

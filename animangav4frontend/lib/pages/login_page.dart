@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
     return (await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            backgroundColor: Color.fromARGB(255, 177, 4, 113),
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
             content: const Text(
               '¿Deseas salir de la aplicación?',
               style: TextStyle(

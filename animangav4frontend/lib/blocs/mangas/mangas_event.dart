@@ -8,8 +8,9 @@ abstract class MangasEvent extends Equatable {
 }
 
 class FindAllMangas extends MangasEvent {
-  const FindAllMangas();
+  final int startIndex;
+  const FindAllMangas(this.startIndex);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [startIndex];
 }

@@ -8,7 +8,8 @@ import 'localstorage_service.dart';
 //import '../exceptions/exceptions.dart';
 
 abstract class MangasService {
-  Future<List<Manga>> findAll();
+  Future<MangaResponse> findAll(int startIndex);
+  Future<Manga> findMangaById(String id);
 }
 //@Singleton(as: AuthenticationService)
 @Order(3)
@@ -25,10 +26,19 @@ class MangaService extends MangasService {
   }
 
   @override
-  Future<List<Manga>> findAll() async {
-    dynamic response = await _mangasRepository.findAll();
+  Future<MangaResponse> findAll(int startIndex) async {
+    dynamic response = await _mangasRepository.findAll(startIndex);
     if (response != null) {
-      return response.content;
+      return response;
+    } else {
+      throw Exception('Error al cargar los Mangas');
+    }
+  } 
+  @override
+  Future<Manga> findMangaById(String id) async {
+    dynamic response = await _mangasRepository.findMangaById(id);
+    if (response != null) {
+      return response;
     } else {
       throw Exception('Error al cargar los Mangas');
     }

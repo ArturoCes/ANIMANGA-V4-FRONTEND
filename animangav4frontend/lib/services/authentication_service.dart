@@ -2,7 +2,9 @@ import 'dart:convert';
 //import 'dart:developer';
 
 import 'package:animangav4frontend/blocs/login/login_dto.dart';
+import 'package:animangav4frontend/blocs/register/bloc/register_dto.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 
 import '../config/locator.dart';
@@ -15,10 +17,9 @@ import 'localstorage_service.dart';
 
 
 abstract class AuthenticationService {
-  Future<User?> getCurrentUser();
-  Future<User?> signInWithEmailAndPassword(LoginDto loginDto);
-  Future<User?> register(String username, String password,
-      String verifyPassword, String email, String fullName);
+  Future<LoginResponse?> getCurrentUser();
+  Future<LoginResponse?> signInWithEmailAndPassword(LoginDto loginDto);
+  Future<LoginResponse?> register(RegisterDto registerDto);
   Future<void> signOut();
 }
 
@@ -38,46 +39,32 @@ class JwtAuthenticationService extends AuthenticationService {
   }
 
   @override
-  Future<User?> getCurrentUser() async {
+  Future<LoginResponse?> getCurrentUser() async {
     String? loggedUser = _localStorageService.getFromDisk("user");
     if (loggedUser != null) {
       var user = LoginResponse.fromJson(jsonDecode(loggedUser));
-      return User(
-          email: user.username ?? "",
-          name: user.fullName ?? "",
-          accessToken: user.token ?? "");
+      return user;
+        
     }
     return null;
   }
 
   @override
-  Future<User> signInWithEmailAndPassword(LoginDto loginDto) async {
+  Future<LoginResponse> signInWithEmailAndPassword(LoginDto loginDto) async {
     LoginResponse response =
         await _authenticationRepository.doLogin(loginDto);
     await _localStorageService.saveToDisk(
         'user', jsonEncode(response.toJson()));
-    return User(
-        email: response.username ?? "",
-        name: response.fullName ?? "",
-        accessToken: response.token ?? "");
+    return response;
   }
 
   @override
-  Future<User> register(String username, String password, String verifyPassword,
-      String email, String fullName) async {
-    print('register: ' + username);
-    RegisterResponse response = await _authenticationRepository.doRegister(
-        username = username,
-        password = password,
-        verifyPassword = verifyPassword,
-        email = email,
-        fullName = fullName);
+  Future<LoginResponse?>register(RegisterDto registerDto) async {
+    LoginResponse response = 
+    await _authenticationRepository.doRegister(registerDto);
     await _localStorageService.saveToDisk(
         'user', jsonEncode(response.toJson()));
-    return User(
-        name: response.fullName ?? '',
-        email: response.userName ?? '',
-        accessToken: response.token ?? '');
+    return response;
   }
 
   @override

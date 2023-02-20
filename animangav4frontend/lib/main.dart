@@ -1,4 +1,5 @@
 import 'package:animangav4frontend/pages/mangas_page.dart';
+import 'package:animangav4frontend/pages/pages.dart';
 import 'package:animangav4frontend/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
           '/login': (context) => const LoginPage(),
           '/manga': (context) => const MangasPage(),
           '/register': (context) => RegisterPage(),
-          //    '/detail': (context) => const DetailMangaPage(manga: manga),
+          '/detail': (context) => const MangaPage(),
         });
   }
 }

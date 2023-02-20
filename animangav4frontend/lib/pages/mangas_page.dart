@@ -23,7 +23,7 @@ class _MangasPageState extends State<MangasPage> {
   @override
   void initState() {
     mangaService = GetIt.instance<MangaService>();
-    _mangasbloc = MangasBloc(mangaService)..add(FindAllMangas());
+    _mangasbloc = MangasBloc(mangaService)..add(FindAllMangas(10));
     super.initState();
   }
 
@@ -63,7 +63,7 @@ class _MangasPageState extends State<MangasPage> {
                 ),
               );
             } else if (state is FindAllMangasSuccess) {
-              return _mangasList(context, state.mangas);
+              return _mangasList(context, state.mangas, state.pagesize);
             } else {
               return const Text('Error al cargar la lista');
             }
@@ -73,7 +73,7 @@ class _MangasPageState extends State<MangasPage> {
     );
   }
 
-  Widget _mangasList(context, List<Manga> mangas) {
+  Widget _mangasList(context, List<Manga> mangas, int pagesize) {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Column(
@@ -87,6 +87,12 @@ class _MangasPageState extends State<MangasPage> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, childAspectRatio: (0.78)),
                 itemBuilder: (context, index) {
+          
+                if (index == mangas.length - 1 && mangas.length < pagesize) {
+                  context
+                      .watch<MangasBloc>()
+                      .add(FindAllMangas(index + 10));
+                }
                   return Center(child: _mangaItem(mangas.elementAt(index)));
                 }),
           ),
@@ -94,11 +100,12 @@ class _MangasPageState extends State<MangasPage> {
       ),
     );
   }
+  
 
   Widget _mangaItem(Manga manga) {
     return GestureDetector(
       onTap: () {
-        box.write("idmanga", manga.id);
+        box.write("idManga", manga.id);
         Navigator.pushNamed(context, "/detail");
       },
       child: Container(
