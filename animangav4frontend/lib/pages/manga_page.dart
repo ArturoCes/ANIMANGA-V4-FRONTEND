@@ -1,11 +1,7 @@
-import 'dart:convert';
-
 import 'package:animangav4frontend/blocs/manga/bloc/manga_bloc.dart';
 import 'package:animangav4frontend/models/manga.dart';
 import 'package:animangav4frontend/pages/error_page.dart';
-import 'package:animangav4frontend/repositories/mangasRepository.dart';
 import 'package:animangav4frontend/services/mangas_service.dart';
-import 'package:animangav4frontend/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';

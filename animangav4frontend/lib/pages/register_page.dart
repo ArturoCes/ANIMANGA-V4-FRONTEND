@@ -25,9 +25,9 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController verifyPasswordController =TextEditingController();
-  
- late AuthenticationService authenticationService;
+  TextEditingController verifyPasswordController = TextEditingController();
+
+  late AuthenticationService authenticationService;
   bool _obscureText = true;
   Icon iconpass = const Icon(Icons.remove_red_eye_outlined);
   final box = GetStorage();
@@ -35,7 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void initState() {
     super.initState();
-     authenticationService = getIt<JwtAuthenticationService>();
+    authenticationService = getIt<JwtAuthenticationService>();
   }
 
   Future<bool> _onWillPop() async {
@@ -58,7 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: const Text(
                       'No',
                       style: TextStyle(
-                         color: Color.fromARGB(255, 127, 1, 143),
+                        color: Color.fromARGB(255, 127, 1, 143),
                       ),
                     ),
                   ),
@@ -102,7 +102,6 @@ class _RegisterPageState extends State<RegisterPage> {
           return state is RegisterSuccess || state is RegisterFailure;
         }, listener: (context, state) {
           if (state is RegisterSuccess) {
-            
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -157,7 +156,7 @@ class _RegisterPageState extends State<RegisterPage> {
       scrollDirection: Axis.vertical,
       child: Center(
         child: Container(
-          margin: const EdgeInsets.only(top: 60),
+          margin: const EdgeInsets.only(top: 5),
           width: 300,
           child: Form(
             key: _formKey,
@@ -166,14 +165,15 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Image.asset(
                   'assets/images/logo.png',
-                  width: 250,
+                  width: 150,
                 ),
                 Container(
                   height: 50,
-                  margin: const EdgeInsets.only(top: 50),
+                  margin: const EdgeInsets.only(top: 20),
                   child: TextFormField(
                     style: AnimangaStyle.textCustom(
-                        Color.fromARGB(255, 140, 14, 154), AnimangaStyle.textSizeTwo),
+                        Color.fromARGB(255, 140, 14, 154),
+                        AnimangaStyle.textSizeTwo),
                     controller: usernameController,
                     textAlignVertical: TextAlignVertical.bottom,
                     decoration: InputDecoration(
@@ -199,7 +199,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   margin: const EdgeInsets.only(top: 10),
                   child: TextFormField(
                     style: AnimangaStyle.textCustom(
-                         Color.fromARGB(255, 140, 14, 154), AnimangaStyle.textSizeTwo),
+                        Color.fromARGB(255, 140, 14, 154),
+                        AnimangaStyle.textSizeTwo),
                     controller: nameController,
                     textAlignVertical: TextAlignVertical.bottom,
                     decoration: InputDecoration(
@@ -219,13 +220,14 @@ class _RegisterPageState extends State<RegisterPage> {
                           : null;
                     },
                   ),
-                ),              
+                ),
                 Container(
                   height: 50,
                   margin: const EdgeInsets.only(top: 10),
                   child: TextFormField(
                     style: AnimangaStyle.textCustom(
-                       Color.fromARGB(255, 140, 14, 154), AnimangaStyle.textSizeTwo),
+                        Color.fromARGB(255, 140, 14, 154),
+                        AnimangaStyle.textSizeTwo),
                     controller: emailController,
                     textAlignVertical: TextAlignVertical.bottom,
                     decoration: InputDecoration(
@@ -251,7 +253,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   margin: const EdgeInsets.only(top: 10),
                   child: TextFormField(
                     style: AnimangaStyle.textCustom(
-                        Color.fromARGB(255, 140, 14, 154), AnimangaStyle.textSizeTwo),
+                        Color.fromARGB(255, 140, 14, 154),
+                        AnimangaStyle.textSizeTwo),
                     controller: passwordController,
                     obscureText: _obscureText,
                     textAlignVertical: TextAlignVertical.bottom,
@@ -284,7 +287,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   margin: const EdgeInsets.only(top: 10),
                   child: TextFormField(
                     style: AnimangaStyle.textCustom(
-                         Color.fromARGB(255, 140, 14, 154), AnimangaStyle.textSizeTwo),
+                        Color.fromARGB(255, 140, 14, 154),
+                        AnimangaStyle.textSizeTwo),
                     controller: verifyPasswordController,
                     obscureText: _obscureText,
                     textAlignVertical: TextAlignVertical.bottom,
@@ -328,20 +332,21 @@ class _RegisterPageState extends State<RegisterPage> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           final registerDto = RegisterDto(
-                              username: usernameController.text,
-                              fullName: nameController.text,
-                              email: emailController.text,
-                              password: passwordController.text,
-                              verifyPassword: verifyPasswordController.text,
-                              );
-                          BlocProvider.of<RegisterBloc>(context)
-                              .add(RegisterWithUsernameButtonPressed(registerDto));
+                            username: usernameController.text,
+                            fullName: nameController.text,
+                            email: emailController.text,
+                            password: passwordController.text,
+                            verifyPassword: verifyPasswordController.text,
+                          );
+                          BlocProvider.of<RegisterBloc>(context).add(
+                              RegisterWithUsernameButtonPressed(registerDto));
                         }
                       },
                       child: Text(
                         'Registrarse',
                         style: AnimangaStyle.textCustom(
-                            AnimangaStyle.whiteColor, AnimangaStyle.textSizeThree),
+                            AnimangaStyle.whiteColor,
+                            AnimangaStyle.textSizeThree),
                         textAlign: TextAlign.center,
                       )),
                 ),
@@ -351,7 +356,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Text(
                       '¿Tienes una cuenta? Inicia sesión',
                       style: AnimangaStyle.textCustom(
-                           Color.fromARGB(255, 140, 14, 154), AnimangaStyle.textSizeThree),
+                          Color.fromARGB(255, 140, 14, 154),
+                          AnimangaStyle.textSizeThree),
                     ),
                     onTap: () {
                       Navigator.pushNamed(context, '/login');

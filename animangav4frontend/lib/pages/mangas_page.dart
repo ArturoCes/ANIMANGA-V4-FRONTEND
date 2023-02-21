@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:animangav4frontend/blocs/mangas/mangas_bloc.dart';
 import 'package:animangav4frontend/models/manga.dart';
+import 'package:animangav4frontend/rest/rest_client.dart';
 import 'package:animangav4frontend/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,12 +88,9 @@ class _MangasPageState extends State<MangasPage> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, childAspectRatio: (0.78)),
                 itemBuilder: (context, index) {
-          
-                if (index == mangas.length - 1 && mangas.length < pagesize) {
-                  context
-                      .watch<MangasBloc>()
-                      .add(FindAllMangas(index + 10));
-                }
+                  if (index == mangas.length - 1 && mangas.length < pagesize) {
+                    context.watch<MangasBloc>().add(FindAllMangas(index + 10));
+                  }
                   return Center(child: _mangaItem(mangas.elementAt(index)));
                 }),
           ),
@@ -100,7 +98,6 @@ class _MangasPageState extends State<MangasPage> {
       ),
     );
   }
-  
 
   Widget _mangaItem(Manga manga) {
     return GestureDetector(
@@ -121,7 +118,7 @@ class _MangasPageState extends State<MangasPage> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(2.0),
                   child: Image.network(
-                    manga.posterPath,
+                    ApiConstants.imageBaseUrl + manga.posterPath,
                     /*   headers: {
                             'Authorization':
                                 '${box.read('token')}'
