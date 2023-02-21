@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:animangav4frontend/blocs/blocs.dart';
 import 'package:animangav4frontend/pages/mangas_page.dart';
+import 'package:animangav4frontend/pages/navigation_bar.dart';
 import 'package:animangav4frontend/services/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -93,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                 if (state is LoginSuccess) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const MangasPage()),
+                    MaterialPageRoute(builder: (context) => BottomNavBar()),
                   );
                 } else if (state is LoginFailure) {
                   _showSnackbar(context, state.error);
