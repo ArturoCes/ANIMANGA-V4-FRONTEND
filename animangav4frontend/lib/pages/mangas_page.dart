@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 import 'package:animangav4frontend/blocs/mangas/mangas_bloc.dart';
 import 'package:animangav4frontend/models/manga.dart';
 import 'package:animangav4frontend/rest/rest_client.dart';
@@ -33,6 +34,18 @@ class _MangasPageState extends State<MangasPage> {
     return MultiBlocProvider(
         providers: [BlocProvider(create: (context) => _mangasbloc)],
         child: Scaffold(
+            backgroundColor: Color.fromARGB(255, 249, 249, 249),
+            appBar: AppBar(
+              flexibleSpace: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    color: Color.fromARGB(255, 134, 12, 123),
+                  ),
+                ),
+              ),
+              title: const Text('Todos los mangas'),
+            ),
             body: RefreshIndicator(
                 onRefresh: () async {},
                 child: SingleChildScrollView(

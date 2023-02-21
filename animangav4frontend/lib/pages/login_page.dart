@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
             content: const Text(
               '¿Deseas salir de la aplicación?',
               style: TextStyle(
-                color: AnimangaStyle.whiteColor,
+                color: Color.fromARGB(255, 189, 72, 224),
               ),
             ),
             actions: [
@@ -49,9 +49,8 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () => Navigator.of(context).pop(false),
                     child: const Text(
                       'No',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 245, 244, 245),
-                      ),
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 211, 26, 211)),
                     ),
                   ),
                   TextButton(
@@ -59,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: const Text(
                         'Si',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 245, 244, 245),
+                          color: Color.fromARGB(255, 170, 2, 170),
                         ),
                       )),
                 ],

@@ -1,5 +1,4 @@
 import 'package:animangav4frontend/models/manga.dart';
-import 'package:animangav4frontend/repositories/mangasrepository.dart';
 import 'package:animangav4frontend/services/mangas_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';

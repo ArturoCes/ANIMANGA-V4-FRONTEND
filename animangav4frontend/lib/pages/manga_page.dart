@@ -1,6 +1,7 @@
 import 'package:animangav4frontend/blocs/manga/bloc/manga_bloc.dart';
 import 'package:animangav4frontend/models/manga.dart';
 import 'package:animangav4frontend/pages/error_page.dart';
+import 'package:animangav4frontend/rest/rest.dart';
 import 'package:animangav4frontend/services/mangas_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,8 +41,9 @@ class _MangaPageState extends State<MangaPage> {
         child: Scaffold(
           backgroundColor: Color.fromARGB(255, 249, 249, 249),
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Color.fromARGB(255, 134, 12, 123),
             iconTheme: const IconThemeData(color: Colors.white),
+            title: Text('Producto'),
           ),
           body: RefreshIndicator(
             onRefresh: () async {},
@@ -96,14 +98,14 @@ class _MangaPageState extends State<MangaPage> {
           child: Column(
             children: [
               Image.network(
-                manga.posterPath,
+                ApiConstants.imageBaseUrl + manga.posterPath,
                 width: MediaQuery.of(context).size.width,
                 height: 190,
               ),
-              Text(manga.name),
-              Text(manga.description),
-              Text(manga.author),
-              Text(manga.releaseDate)
+              Text('Nombre de la obra: ' + manga.name),
+              Text('Descripción: ' + manga.description),
+              Text('Autor de la obra: ' + manga.author),
+              Text('Fecha de salida: ' + manga.releaseDate)
             ],
           )),
     );

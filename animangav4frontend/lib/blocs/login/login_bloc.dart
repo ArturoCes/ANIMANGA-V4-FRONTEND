@@ -4,8 +4,6 @@ import 'package:animangav4frontend/services/authentication_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../exceptions/authentication_exception.dart';
-
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthenticationService _authenticationService;
   final box = GetStorage();
