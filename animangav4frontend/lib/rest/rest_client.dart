@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:animangav4frontend/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http_interceptor/http_interceptor.dart';
@@ -37,7 +38,6 @@ class HeadersApiInterceptor implements InterceptorContract {
 class RestClient {
   RestClient();
 
-  //final _httpClient = http.Client();
   final _httpClient =
       InterceptedClient.build(interceptors: [HeadersApiInterceptor()]);
 
@@ -92,9 +92,6 @@ class RestClient {
     }
   }
 }
-
-// ignore_for_file: prefer_typing_uninitialized_variables
-// ignore_for_file: annotate_overrides
 
 class CustomException implements Exception {
   final _message;

@@ -19,31 +19,14 @@ class LocalStorageService {
 
   static late LocalStorageService _instance;
   static late SharedPreferences _preferences;
-
-  /*@FactoryMethod(preResolve: true)
-  static Future<LocalStorageService> create() async {
-    _preferences = await SharedPreferences.getInstance();
-
-    return Future.value(LocalStorageService());
-
-  }*/
-
-  //LocalStorageService() {
-  //_preferences = GetIt.I.get<SharedPreferences>();
-  //}
-
   static Future<LocalStorageService> getInstance() async {
     print("Aquí se entra");
 
-    //if (_preferences == null) {
     _preferences = await SharedPreferences.getInstance();
-    //}
 
     print("Aquí se llega");
 
-    //if (_instance == null) {
     _instance = LocalStorageService();
-    //}
 
     return _instance;
   }
