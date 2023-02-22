@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:animangav4frontend/blocs/blocs.dart';
-import 'package:animangav4frontend/pages/mangas_page.dart';
 import 'package:animangav4frontend/pages/navigation_bard.dart';
 import 'package:animangav4frontend/services/authentication_service.dart';
 import 'package:flutter/material.dart';

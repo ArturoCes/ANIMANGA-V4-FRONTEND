@@ -4,11 +4,12 @@ import 'dart:convert';
 import 'package:animangav4frontend/blocs/login/login_dto.dart';
 import 'package:animangav4frontend/blocs/register/bloc/register_dto.dart';
 import 'package:animangav4frontend/models/edit_user_dto.dart';
+import 'package:animangav4frontend/models/login.dart';
+import 'package:animangav4frontend/models/user.dart';
+import 'package:animangav4frontend/repositories/AuthenticationRepository.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import '../models/login.dart';
-import '../models/user.dart';
-import '../repositories/authenticationrepository.dart';
+
 import 'localstorage_service.dart';
 
 abstract class AuthenticationService {
