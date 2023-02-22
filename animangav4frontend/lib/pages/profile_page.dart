@@ -35,7 +35,6 @@ class _ProfilePageState extends State<ProfilePage> {
     _imageFileList = value == null ? [] : <XFile>[value];
   }
 
-  var url = "https://i.ibb.co/RDRz7Ft/upload.png";
 
   @override
   void initState() {
@@ -308,17 +307,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget image(String imageUrl) {
-    if (imageUrl.isEmpty) {
-      return Container(
-          width: 130,
-          height: 130,
-          decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: AssetImage("assets/images/upload.png"))));
-    } else {
-      return Container(
+         return Container(
           width: 130,
           height: 130,
           decoration: BoxDecoration(
@@ -333,7 +322,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           }, */
                   ))));
     }
-  }
 
   Widget buildProfile(BuildContext context, state) {
     return SizedBox(

@@ -1,4 +1,4 @@
-import 'package:animangav4frontend/edit_bloc/edit_bloc.dart';
+import 'package:animangav4frontend/blocs/edit_bloc/edit_bloc.dart';
 import 'package:animangav4frontend/models/edit_user_dto.dart';
 import 'package:animangav4frontend/models/errors.dart';
 import 'package:animangav4frontend/pages/navigation_bard.dart';
@@ -48,7 +48,7 @@ class _ProfilePageScreenState extends State<ProfileEditPage> {
               title: Text(
                 "EDITAR PERFIL",
                 style: AnimangaStyle.textCustom(
-                   Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeFive),
+                   Color.fromARGB(255, 251, 251, 251), AnimangaStyle.textSizeFive),
               ),
               centerTitle: true,
               backgroundColor: Color.fromARGB(255, 108, 0, 113),

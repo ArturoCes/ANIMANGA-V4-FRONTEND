@@ -1,5 +1,7 @@
 import 'package:animangav4frontend/blocs/login/login_event.dart';
 import 'package:animangav4frontend/blocs/login/login_state.dart';
+import 'package:animangav4frontend/models/errors.dart';
+import 'package:animangav4frontend/models/login_error.dart';
 import 'package:animangav4frontend/services/authentication_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:get_storage/get_storage.dart';
@@ -27,8 +29,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         box.write('image', user.image);
         emit(LoginSuccess());
       }
-    } on Exception catch (err) {
-      emit(LoginFailure(error: 'An unknown error occurred ${err.toString()}'));
+    } on LoginError catch (err) {
+      emit(LoginFailure(error: err));
     }
   }
 }

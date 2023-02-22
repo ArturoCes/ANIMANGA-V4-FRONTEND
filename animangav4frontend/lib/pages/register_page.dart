@@ -115,7 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
           if (state is RegisterInitial) {
             return buildF(ctx);
           } else if (state is RegisterLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return buildF(ctx);
           } else {
             return buildF(ctx);
           }

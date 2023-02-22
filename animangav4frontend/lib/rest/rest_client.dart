@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:animangav4frontend/models/login_error.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:injectable/injectable.dart';
 import 'package:http/http.dart' as http;
+
+import '../models/errors.dart';
 
 class ApiConstants {
   static String baseUrl = "http://localhost:8080";
@@ -75,9 +78,17 @@ class RestClient {
       case 204:
         return;
       case 400:
-        throw BadRequestException(utf8.decode(response.bodyBytes));
+        if (response.body.isNotEmpty) {
+          throw ErrorResponse.fromJson(jsonDecode(response.body));
+        } else {
+          throw BadRequestException();
+        }
       case 401:
-        throw AuthenticationException(utf8.decode(response.bodyBytes));
+        if (response.body.isNotEmpty) {
+          throw LoginError.fromJson(jsonDecode(response.body));
+        } else {
+          throw AuthenticationException(utf8.decode(response.bodyBytes));
+        }
       case 403:
         throw UnauthorizedException(utf8.decode(response.bodyBytes));
       case 404:

@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:animangav4frontend/blocs/blocs.dart';
+import 'package:animangav4frontend/models/errors.dart';
+import 'package:animangav4frontend/models/login_error.dart';
 import 'package:animangav4frontend/pages/navigation_bard.dart';
 import 'package:animangav4frontend/services/authentication_service.dart';
 import 'package:flutter/material.dart';
@@ -114,9 +116,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _showSnackbar(BuildContext context, String message) {
+  void _showSnackbar(BuildContext context, LoginError loginError) {
     final snackBar = SnackBar(
-      content: Text(message),
+      content: Text(loginError.message),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
