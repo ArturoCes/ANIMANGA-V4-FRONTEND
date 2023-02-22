@@ -7,7 +7,7 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  final JwtAuthenticationService userService;
+  final AuthenticationService userService;
 
   ProfileBloc(this.userService) : super(ProfileInitial()) {
     on<FetchUserLogged>(_userLoggedFetched);

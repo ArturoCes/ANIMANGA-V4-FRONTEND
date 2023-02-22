@@ -8,7 +8,6 @@ import 'package:animangav4frontend/pages/profile_edit_page.dart';
 import 'package:animangav4frontend/services/authentication_service.dart';
 
 import 'package:animangav4frontend/utils/styles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -308,8 +307,8 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget avatar(String avatarUrl) {
-    if (avatarUrl.isEmpty) {
+  Widget image(String imageUrl) {
+    if (imageUrl.isEmpty) {
       return Container(
           width: 130,
           height: 130,
@@ -327,7 +326,7 @@ class _ProfilePageState extends State<ProfilePage> {
               image: DecorationImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(
-                    box.read("avatar")!,
+                    box.read("image")!,
                     /*  headers: {
                             'Authorization':
                                 'Bearer ${PreferenceUtils.getString('token')}'
@@ -351,7 +350,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 BlocProvider.of<ImagePickBloc>(context)
                     .add(const SelectImageEvent(ImageSource.gallery));
               },
-              child: avatar(box.read('image'))),
+              child: image(box.read('image'))),
         ],
       ),
     );
