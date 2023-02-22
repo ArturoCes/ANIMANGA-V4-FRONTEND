@@ -30,7 +30,6 @@ class MangasRepository {
   Future<dynamic> findMangaById(String id) async {
     String url = "/manga/${id}";
     Map<String, String> headers = {
-      'Content-Type': 'application/json',
       'Authorization': 'Bearer ${box.read('token')}'
     };
     var jsonResponse = await _client.get(url, headers: headers);

@@ -116,7 +116,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Center(
             child: Text(utf8.decode(userLogged.username!.codeUnits),
                 style: AnimangaStyle.textCustom(
-                    AnimangaStyle.whiteColor, AnimangaStyle.textSizeThree)),
+                    Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeThree)),
           ),
         ),
         Row(
