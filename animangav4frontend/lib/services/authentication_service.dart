@@ -5,12 +5,8 @@ import 'package:animangav4frontend/blocs/login/login_dto.dart';
 import 'package:animangav4frontend/blocs/register/bloc/register_dto.dart';
 import 'package:animangav4frontend/models/edit_user_dto.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
-
-import '../config/locator.dart';
 import '../models/login.dart';
-import '../models/register.dart';
 import '../models/user.dart';
 import '../repositories/authenticationrepository.dart';
 import 'localstorage_service.dart';
@@ -20,6 +16,9 @@ abstract class AuthenticationService {
   Future<LoginResponse?> signInWithEmailAndPassword(LoginDto loginDto);
   Future<LoginResponse?> register(RegisterDto registerDto);
   Future<void> signOut();
+  Future<User> uploadImage(String filename, String id);
+  Future<User> userLogged();
+  Future<EditUserDto> edit(EditUserDto editUserDto, String id);
 }
 
 @Order(2)

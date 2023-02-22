@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:animangav4frontend/pages/mangas_page.dart';
+import 'package:animangav4frontend/pages/profile_page.dart';
 import 'package:animangav4frontend/utils/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   List<Widget> pages = [
     const MangasPage(),
     const MangasPage(),
-    const MangasPage(),
+    const ProfilePage(),
   ];
   Future<bool> _onWillPop() async {
     return (await showDialog(
@@ -93,7 +94,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
               },
             ),
             GestureDetector(
-              child: Icon(Icons.favorite,
+              child: Icon(Icons.add_shopping_cart,
                   color: _currentIndex == 1
                       ? AnimangaStyle.primaryColor
                       : AnimangaStyle.whiteColor),

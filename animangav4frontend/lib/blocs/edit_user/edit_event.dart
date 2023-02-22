@@ -1,4 +1,4 @@
-/*part of 'edit_bloc.dart';
+part of 'edit_bloc.dart';
 
 abstract class EditUserEvent extends Equatable {
   const EditUserEvent();
@@ -7,7 +7,7 @@ abstract class EditUserEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class  EditOneUserEvent extends EditUserEvent {
+class EditOneUserEvent extends EditUserEvent {
   final EditUserDto editUserDto;
   final String id;
 
@@ -15,4 +15,4 @@ class  EditOneUserEvent extends EditUserEvent {
 
   @override
   List<Object> get props => [editUserDto, id];
-}*/
+}

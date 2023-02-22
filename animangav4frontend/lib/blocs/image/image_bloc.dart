@@ -8,10 +8,13 @@ part 'image_event.dart';
 part 'image_state.dart';
 
 class ImagePickBloc extends Bloc<ImagePickEvent, ImagePickState> {
-  final JwtAuthenticationService userService;
+  final AuthenticationService _userService;
   final box = GetStorage();
 
-  ImagePickBloc(this.userService) : super(ImagePickInitial()) {
+  ImagePickBloc(JwtAuthenticationService userService)
+      : assert(userService != null),
+        _userService = userService,
+        super(ImagePickInitial()) {
     on<SelectImageEvent>(_onSelectImage);
   }
 
@@ -24,7 +27,7 @@ class ImagePickBloc extends Bloc<ImagePickEvent, ImagePickState> {
         source: event.source,
       );
       if (pickedFile != null) {
-        final user = await userService.uploadImage(
+        final user = await _userService.uploadImage(
             pickedFile.path, box.read("idUser") ?? "");
         box.write('image', user.image);
         emit(ImageSelectedSuccessState(pickedFile));

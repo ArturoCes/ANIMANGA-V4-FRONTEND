@@ -1,7 +1,7 @@
 class User {
   String? id;
   String? username;
-  Null? image;
+  String? image;
   String? fullName;
   String? createdAt;
 

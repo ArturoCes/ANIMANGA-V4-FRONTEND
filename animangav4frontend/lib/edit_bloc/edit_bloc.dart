@@ -10,7 +10,7 @@ part 'edit_event.dart';
 part 'edit_state.dart';
 
 class EditUserBloc extends Bloc<EditUserEvent, EditUserState> {
-  final JwtAuthenticationService _userService;
+  final AuthenticationService _userService;
 
   EditUserBloc(JwtAuthenticationService userService)
       : assert(userService != null),
