@@ -1,17 +1,18 @@
-import 'package:animangav4frontend/services/authentication_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../services/user_service.dart';
+
 part 'image_event.dart';
 part 'image_state.dart';
 
 class ImagePickBloc extends Bloc<ImagePickEvent, ImagePickState> {
-  final AuthenticationService _userService;
+  final UserServiceI _userService;
   final box = GetStorage();
 
-  ImagePickBloc(JwtAuthenticationService userService)
+  ImagePickBloc(UserServiceI userService)
       : assert(userService != null),
         _userService = userService,
         super(ImagePickInitial()) {

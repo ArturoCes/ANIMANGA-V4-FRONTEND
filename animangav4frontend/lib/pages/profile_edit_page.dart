@@ -3,6 +3,7 @@ import 'package:animangav4frontend/models/edit_user_dto.dart';
 import 'package:animangav4frontend/models/errors.dart';
 import 'package:animangav4frontend/pages/navigation_bard.dart';
 import 'package:animangav4frontend/services/authentication_service.dart';
+import 'package:animangav4frontend/services/services.dart';
 import 'package:animangav4frontend/utils/styles.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
@@ -25,13 +26,13 @@ class _ProfilePageScreenState extends State<ProfileEditPage> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController fullNameController;
   late TextEditingController emailController;
-  late JwtAuthenticationService userService;
+  late UserServiceI userService;
 
   @override
   void initState() {
     fullNameController = TextEditingController(text: widget.fullName);
     emailController = TextEditingController(text: widget.email);
-    userService = GetIt.instance<JwtAuthenticationService>();
+    userService = GetIt.instance<UserService>();
     super.initState();
   }
 
@@ -47,10 +48,10 @@ class _ProfilePageScreenState extends State<ProfileEditPage> {
               title: Text(
                 "EDITAR PERFIL",
                 style: AnimangaStyle.textCustom(
-                    AnimangaStyle.whiteColor, AnimangaStyle.textSizeFive),
+                   Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeFive),
               ),
               centerTitle: true,
-              backgroundColor: AnimangaStyle.blackColor,
+              backgroundColor: Color.fromARGB(255, 108, 0, 113),
               iconTheme: const IconThemeData(color: Colors.white),
             ),
             body: RefreshIndicator(
@@ -95,9 +96,9 @@ class _ProfilePageScreenState extends State<ProfileEditPage> {
       title: 'Correcto',
       desc: 'Los datos se han guardado correctamente',
       titleTextStyle: AnimangaStyle.textCustom(
-          AnimangaStyle.whiteColor, AnimangaStyle.textSizeFour),
+          Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeFour),
       descTextStyle: AnimangaStyle.textCustom(
-          AnimangaStyle.whiteColor, AnimangaStyle.textSizeThree),
+      Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeThree),
       btnOkText: "Aceptar",
       btnOkOnPress: () {},
     )..show();
@@ -134,12 +135,12 @@ class _ProfilePageScreenState extends State<ProfileEditPage> {
                 margin: const EdgeInsets.all(10),
                 child: TextFormField(
                   style: AnimangaStyle.textCustom(
-                      AnimangaStyle.whiteColor, AnimangaStyle.textSizeTwo),
+                     Color.fromARGB(255, 148, 3, 139),AnimangaStyle.textSizeTwo),
                   controller: fullNameController,
                   textAlignVertical: TextAlignVertical.bottom,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: AnimangaStyle.greyBoxColor,
+                    fillColor: AnimangaStyle.greyBoxColor1,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(100.0),
                     ),
@@ -158,12 +159,12 @@ class _ProfilePageScreenState extends State<ProfileEditPage> {
                 margin: const EdgeInsets.all(10),
                 child: TextFormField(
                   style: AnimangaStyle.textCustom(
-                      AnimangaStyle.whiteColor, AnimangaStyle.textSizeTwo),
+                    Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeTwo),
                   controller: emailController,
                   textAlignVertical: TextAlignVertical.bottom,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: AnimangaStyle.greyBoxColor,
+                    fillColor: AnimangaStyle.greyBoxColor1,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(100.0),
                     ),
@@ -182,17 +183,17 @@ class _ProfilePageScreenState extends State<ProfileEditPage> {
                 margin: const EdgeInsets.all(10),
                 child: TextFormField(
                   style: AnimangaStyle.textCustom(
-                      AnimangaStyle.whiteColor, AnimangaStyle.textSizeTwo),
+                      Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeTwo),
                   controller: emailController,
                   textAlignVertical: TextAlignVertical.bottom,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: AnimangaStyle.greyBoxColor,
+                    fillColor: AnimangaStyle.greyBoxColor1,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(100.0),
                     ),
                     hintStyle: AnimangaStyle.textCustom(
-                        AnimangaStyle.formColor, AnimangaStyle.textSizeTwo),
+                     Color.fromARGB(255, 148, 3, 139),AnimangaStyle.textSizeTwo),
                     hintText: 'Email:',
                   ),
                   onSaved: (String? value) {},

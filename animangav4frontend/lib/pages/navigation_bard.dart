@@ -18,7 +18,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   List<Widget> pages = [
     const MangasPage(),
     const MangasPage(),
-    const ProfilePage(),
+    ProfilePage(),
   ];
   Future<bool> _onWillPop() async {
     return (await showDialog(

@@ -17,9 +17,7 @@ abstract class AuthenticationService {
   Future<LoginResponse?> signInWithEmailAndPassword(LoginDto loginDto);
   Future<LoginResponse?> register(RegisterDto registerDto);
   Future<void> signOut();
-  Future<User> uploadImage(String filename, String id);
-  Future<User> userLogged();
-  Future<User> edit(EditUserDto editUserDto, String id);
+
 }
 
 @Order(2)
@@ -67,35 +65,5 @@ class JwtAuthenticationService extends AuthenticationService {
     await _localStorageService.deleteFromDisk("user");
   }
 
-  @override
-  Future<User> uploadImage(String filename, String id) async {
-    dynamic response =
-        await _authenticationRepository.uploadImage(filename, id);
-    if (response != null) {
-      return response;
-    } else {
-      throw Exception("Error al subir la imagen");
-    }
-  }
-
-  @override
-  Future<User> userLogged() async {
-    dynamic response = await _authenticationRepository.userLogged();
-    if (response != null) {
-      return response;
-    } else {
-      throw Exception("Upss, algo ha salido mal");
-    }
-  }
-
-  @override
-  Future<User> edit(EditUserDto editUserDto, String id) async {
-    dynamic response = await _authenticationRepository.edit(editUserDto, id);
-
-    if (response != null) {
-      return response;
-    } else {
-      throw Exception("Error, algo ha salido mal");
-    }
-  }
+  
 }

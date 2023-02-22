@@ -11,6 +11,8 @@ class AnimangaStyle {
   static const Color redColor = Color(0xFFF35050);
   static Color greyBoxColor =
       Color.fromARGB(255, 255, 255, 255).withOpacity(0.6);
+      static Color greyBoxColor1 =
+      Color.fromARGB(255, 174, 173, 173).withOpacity(0.6);
   static const Color whiteColor = Color(0xFFFFFFFF);
   static const Color blackColor = Color(0xFF000000);
 

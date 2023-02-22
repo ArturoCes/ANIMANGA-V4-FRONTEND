@@ -34,21 +34,5 @@ class AuthenticationRepository {
     return LoginResponse.fromJson(jsonDecode(jsonResponse));
   }
 
-  Future<dynamic> uploadImage(String filename, String id) async {
-      
-    
-  }
-
-  Future<dynamic> userLogged() async {
-    String url = "/me";
-
-    Map<String, String> headers = {
-      'Authorization': 'Bearer ${box.read('token')}'
-    };
-    var jsonResponse = await _client.get(url, headers: headers);
-    return User.fromJson(jsonDecode(jsonResponse));
-
-  }
-
-  Future<dynamic> edit(EditUserDto editUserDto, String id) async {}
+  
 }
