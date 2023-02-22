@@ -7,8 +7,8 @@ class ErrorResponse {
     required this.fecha,
     required this.subErrores,
   });
-  late final String estado;
-  late final int codigo;
+  late final dynamic estado;
+  late final dynamic codigo;
   late final String mensaje;
   late final String ruta;
   late final String fecha;
@@ -17,7 +17,7 @@ class ErrorResponse {
   ErrorResponse.fromJson(Map<String, dynamic> json){
     estado = json['estado'];
     codigo = json['codigo'];
-    mensaje = json['mensaje'];
+    mensaje = json['mensaje']!=null?json['mensaje']:"";
     ruta = json['ruta'];
     fecha = json['fecha'];
     subErrores = List.from(json['subErrores']).map((e)=>SubErrores.fromJson(e)).toList();
@@ -46,9 +46,9 @@ class SubErrores {
   late String? campo;
   
   SubErrores.fromJson(Map<String, dynamic> json){
-    objeto = json['objeto'];
-    mensaje = json['mensaje'];
-    campo = json['campo'];
+    objeto = json['objeto']!=null?json['objeto']:"";
+    mensaje = json['mensaje']!=null?json['mensaje']:"";
+    campo = json['campo']!=null?json['campo']:"";
   }
 
   Map<String, dynamic> toJson() {

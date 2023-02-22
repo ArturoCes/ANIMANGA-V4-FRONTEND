@@ -1,27 +1,36 @@
 class User {
-  String? id;
-  String? username;
-  String? image;
-  String? fullName;
-  String? createdAt;
-
-  User({this.id, this.username, this.image, this.fullName, this.createdAt});
-
-  User.fromJson(Map<String, dynamic> json) {
+  User({
+    required this.id,
+    required this.image,
+    required this.username,
+    required this.fullName,
+    required this.email,
+    required this.createdAt,
+  });
+  late final String id;
+  late final String image;
+  late final String username;
+  late final String fullName;
+  late final String email;
+  late final String createdAt;
+  
+  User.fromJson(Map<String, dynamic> json){
     id = json['id'];
-    username = json['username'];
     image = json['image'];
+    username = json['username'];
     fullName = json['fullName'];
+    email = json['email'];
     createdAt = json['createdAt'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['username'] = this.username;
-    data['image'] = this.image;
-    data['fullName'] = this.fullName;
-    data['createdAt'] = this.createdAt;
-    return data;
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['image'] = image;
+    _data['username'] = username;
+    _data['fullName'] = fullName;
+    _data['email'] = email;
+    _data['createdAt'] = createdAt;
+    return _data;
   }
 }

@@ -31,8 +31,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       final user = await _authenticationService
       .register(event.registerDto);
       if (user != null) {
-        box.write('token',user.token);
-        box.write('idUser',user.username);
         emit(RegisterSuccess());
       }
     } on ErrorResponse catch (e) {

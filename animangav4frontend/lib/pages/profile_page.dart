@@ -114,7 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         Center(
           child: Center(
-            child: Text(utf8.decode(userLogged.username!.codeUnits),
+            child: Text(utf8.decode(userLogged.username.codeUnits),
                 style: AnimangaStyle.textCustom(
                     Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeThree)),
           ),
@@ -126,9 +126,10 @@ class _ProfilePageState extends State<ProfilePage> {
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ProfileEditPage(
-                        fullName: userLogged.fullName!,
-                        email: userLogged.createdAt!,
-                        id: userLogged.id!)));
+                        fullName: userLogged.fullName,
+                        email: userLogged.email,
+                        username: userLogged.username,
+                        id: userLogged.id)));
               },
               icon: const Icon(
                 Icons.edit,
@@ -157,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
-                  utf8.decode(userLogged.fullName!.codeUnits),
+                  utf8.decode(userLogged.fullName.codeUnits),
                   style: AnimangaStyle.textCustom(
                       Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeTwo),
                 ),
@@ -184,7 +185,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
-                  utf8.decode(userLogged.username!.codeUnits),
+                  utf8.decode(userLogged.username.codeUnits),
                   style: AnimangaStyle.textCustom(
                      Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeTwo),
                 ),
@@ -211,7 +212,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(utf8.decode(userLogged.createdAt!.codeUnits),
+                child: Text(utf8.decode(userLogged.email.codeUnits),
                     style: AnimangaStyle.textCustom(
                        Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeTwo)),
               )

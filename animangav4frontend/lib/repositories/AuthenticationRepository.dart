@@ -4,6 +4,7 @@ import 'package:animangav4frontend/blocs/login/login_dto.dart';
 import 'package:animangav4frontend/blocs/register/bloc/register_dto.dart';
 import 'package:animangav4frontend/models/edit_user_dto.dart';
 import 'package:animangav4frontend/models/errors.dart';
+import 'package:animangav4frontend/models/models.dart';
 import 'package:animangav4frontend/models/user.dart';
 import 'package:animangav4frontend/rest/rest_client.dart';
 import 'package:get_it/get_it.dart';
@@ -32,6 +33,6 @@ class AuthenticationRepository {
     String url = '/auth/register';
 
     var jsonResponse = await _client.post(url, registerDto);
-    return LoginResponse.fromJson(jsonDecode(jsonResponse));
+    return RegisterResponse.fromJson(jsonDecode(jsonResponse));
   }
 }

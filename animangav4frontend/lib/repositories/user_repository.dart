@@ -16,9 +16,7 @@ class UserRepository {
     _client = GetIt.I.get<RestClient>();
   }
 
-  Future<dynamic> uploadImage(String filename, String id) async {
-      
-  }
+  Future<dynamic> uploadImage(String filename, String id) async {}
 
   Future<dynamic> userLogged() async {
     String url = "/me";
@@ -28,9 +26,12 @@ class UserRepository {
     };
     var jsonResponse = await _client.get(url, headers: headers);
     return User.fromJson(jsonDecode(jsonResponse));
-
   }
 
-  Future<dynamic> edit(EditUserDto editUserDto, String id) async {}
+  Future<dynamic> edit(EditUserDto editUserDto, String id) async {
+    String url = "/${box.read('idUser')}";
 
+    var jsonResponse = await _client.multipartRequest(url,editUserDto);
+    return jsonResponse;
+  }
 }

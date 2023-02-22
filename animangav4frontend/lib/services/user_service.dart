@@ -7,7 +7,7 @@ import '../repositories/user_repository.dart';
 abstract class UserServiceI {
   Future<User> uploadImage(String filename, String id);
   Future<User> userLogged();
-  Future<User> edit(EditUserDto editUserDto, String id);
+  Future<dynamic> edit(EditUserDto editUserDto, String id);
 }
 
 @Order(6)
@@ -43,11 +43,7 @@ class UserService extends UserServiceI{
   @override
   Future<User> edit(EditUserDto editUserDto, String id) async {
     dynamic response = await _userRepository.edit(editUserDto, id);
-
-    if (response != null) {
-      return response;
-    } else {
-      throw Exception("Error, algo ha salido mal");
-    }
+    return response;
+  
   }
 }

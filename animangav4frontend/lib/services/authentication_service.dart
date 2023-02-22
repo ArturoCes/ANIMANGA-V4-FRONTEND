@@ -5,6 +5,7 @@ import 'package:animangav4frontend/blocs/login/login_dto.dart';
 import 'package:animangav4frontend/blocs/register/bloc/register_dto.dart';
 import 'package:animangav4frontend/models/edit_user_dto.dart';
 import 'package:animangav4frontend/models/login.dart';
+import 'package:animangav4frontend/models/models.dart';
 import 'package:animangav4frontend/models/user.dart';
 import 'package:animangav4frontend/repositories/AuthenticationRepository.dart';
 import 'package:get_it/get_it.dart';
@@ -15,7 +16,7 @@ import 'localstorage_service.dart';
 abstract class AuthenticationService {
   Future<LoginResponse?> getCurrentUser();
   Future<LoginResponse?> signInWithEmailAndPassword(LoginDto loginDto);
-  Future<LoginResponse?> register(RegisterDto registerDto);
+  Future<RegisterResponse?> register(RegisterDto registerDto);
   Future<void> signOut();
 
 }
@@ -52,10 +53,10 @@ class JwtAuthenticationService extends AuthenticationService {
   }
 
   @override
-  Future<LoginResponse?> register(RegisterDto registerDto) async {
-    LoginResponse response =
+  Future<RegisterResponse?> register(RegisterDto registerDto) async {
+    RegisterResponse response =
         await _authenticationRepository.doRegister(registerDto);
-    await _localStorageService.saveToDisk(
+        await _localStorageService.saveToDisk(
         'user', jsonEncode(response.toJson()));
     return response;
   }

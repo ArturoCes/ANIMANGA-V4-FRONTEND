@@ -1,42 +1,47 @@
 class LoginResponse {
-  String? id;
-  String? username;
-  String? fullName;
-  String? createdAt;
-  String? image;
-  String? token;
-  String? refreshToken;
+  LoginResponse({
+    required this.id,
+    required this.email,
+    required this.image,
+    required this.username,
+    required this.fullName,
+    required this.createdAt,
+    required this.token,
+    required this.refreshToken,
+  });
+  late final String id;
+  late final String email;
+  late final String image;
+  late final String username;
+  late final String fullName;
 
-  LoginResponse(
-      {this.id,
-      this.username,
-      this.fullName,
-      this.createdAt,
-      this.image,
-      this.token,
-      this.refreshToken});
-
-  LoginResponse.fromJson(Map<String, dynamic> json) {
+  late final String createdAt;
+  late final String token;
+  late final String refreshToken;
+  
+  LoginResponse.fromJson(Map<String, dynamic> json){
     id = json['id'];
+    email = json['email'];
+    image = json['image'];
     username = json['username'];
     fullName = json['fullName'];
     createdAt = json['createdAt'];
-    image = json['image'];
     token = json['token'];
     refreshToken = json['refreshToken'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['username'] = username;
-    data['fullName'] = fullName;
-    data['token'] = token;
-    data['image'] = image;
-    data['refreshToken'] = refreshToken;
-    return data;
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['email'] = email;
+    _data['image'] = image;
+    _data['username'] = username;
+    _data['fullName'] = fullName;
+    _data['createdAt'] = createdAt;
+    _data['token'] = token;
+    _data['refreshToken'] = refreshToken;
+    return _data;
   }
-  
 }
 
 

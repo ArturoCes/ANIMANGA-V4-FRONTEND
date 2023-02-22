@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:animangav4frontend/models/login_error.dart';
+import 'package:animangav4frontend/models/user.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:injectable/injectable.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:http_parser/http_parser.dart';
 import '../models/errors.dart';
 
 class ApiConstants {
@@ -35,7 +37,7 @@ class HeadersApiInterceptor implements InterceptorContract {
 @singleton
 class RestClient {
   RestClient();
-
+  final box = GetStorage();
   //final _httpClient = http.Client();
   final _httpClient =
       InterceptedClient.build(interceptors: [HeadersApiInterceptor()]);
@@ -65,6 +67,35 @@ class RestClient {
       return responseJson;
     } on SocketException catch (ex) {
       throw FetchDataException('No internet connection: ${ex.message}');
+    }
+  }
+
+  Future<dynamic> multipartRequest(String url, dynamic body) async {
+    Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${box.read('token')}'
+    };
+
+    Uri uri = Uri.parse(ApiConstants.baseUrl + url);
+    print(uri.toString());
+
+    final request = http.MultipartRequest('PUT', uri);
+    request.files.add(http.MultipartFile.fromString(
+      'user',
+      jsonEncode(body.toJson()),
+      contentType: MediaType('application', 'json'),
+      filename: "user",
+    ));
+    request.headers.addAll(headers);
+    var res = await request.send();
+    final response = await res.stream.bytesToString();
+    if (res.statusCode == 200) {
+      User user = User.fromJson(json.decode(response));
+      return user;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response));
+      throw error;
     }
   }
 

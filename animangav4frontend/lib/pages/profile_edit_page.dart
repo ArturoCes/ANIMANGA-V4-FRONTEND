@@ -13,9 +13,10 @@ import 'package:get_it/get_it.dart';
 class ProfileEditPage extends StatefulWidget {
   final String fullName;
   final String email;
+  final String username;
   final String id;
   const ProfileEditPage(
-      {Key? key, required this.fullName, required this.email, required this.id})
+      {Key? key, required this.fullName, required this.email, required this.username, required this.id})
       : super(key: key);
 
   @override
@@ -89,7 +90,7 @@ class _ProfilePageScreenState extends State<ProfileEditPage> {
   AwesomeDialog _createDialog(context) {
     return AwesomeDialog(
       context: context,
-      dialogBackgroundColor: AnimangaStyle.quaternaryColor,
+      dialogBackgroundColor: Color.fromARGB(255, 255, 255, 255),
       btnOkColor: AnimangaStyle.primaryColor,
       dialogType: DialogType.SUCCES,
       animType: AnimType.BOTTOMSLIDE,
@@ -159,30 +160,6 @@ class _ProfilePageScreenState extends State<ProfileEditPage> {
                 margin: const EdgeInsets.all(10),
                 child: TextFormField(
                   style: AnimangaStyle.textCustom(
-                    Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeTwo),
-                  controller: emailController,
-                  textAlignVertical: TextAlignVertical.bottom,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: AnimangaStyle.greyBoxColor1,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(100.0),
-                    ),
-                    hintStyle: AnimangaStyle.textCustom(
-                        AnimangaStyle.formColor, AnimangaStyle.textSizeTwo),
-                    hintText: 'Apellidos:',
-                  ),
-                  onSaved: (String? value) {},
-                  validator: (String? value) {
-                    return (value == null) ? 'Introduzca sus apellidos' : null;
-                  },
-                ),
-              ),
-              Container(
-                height: 50,
-                margin: const EdgeInsets.all(10),
-                child: TextFormField(
-                  style: AnimangaStyle.textCustom(
                       Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeTwo),
                   controller: emailController,
                   textAlignVertical: TextAlignVertical.bottom,
@@ -214,10 +191,8 @@ class _ProfilePageScreenState extends State<ProfileEditPage> {
                       final edit = EditUserDto(
                         fullName: fullNameController.text,
                         email: emailController.text,
+                        username: widget.username
                       );
-                      if (widget.email != emailController.text) {
-                        edit.email = emailController.text;
-                      }
                       BlocProvider.of<EditUserBloc>(context).add(
                         EditOneUserEvent(edit, widget.id),
                       );
