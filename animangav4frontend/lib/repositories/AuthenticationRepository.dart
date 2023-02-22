@@ -34,7 +34,9 @@ class AuthenticationRepository {
     return LoginResponse.fromJson(jsonDecode(jsonResponse));
   }
 
-  Future<dynamic> uploadImage(String filename, String id) async {}
+  Future<dynamic> uploadImage(String filename, String id) async {
+    
+  }
 
   Future<dynamic> userLogged() async {}
 

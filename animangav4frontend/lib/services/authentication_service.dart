@@ -19,7 +19,7 @@ abstract class AuthenticationService {
   Future<void> signOut();
   Future<User> uploadImage(String filename, String id);
   Future<User> userLogged();
-  Future<EditUserDto> edit(EditUserDto editUserDto, String id);
+  Future<User> edit(EditUserDto editUserDto, String id);
 }
 
 @Order(2)
@@ -89,7 +89,7 @@ class JwtAuthenticationService extends AuthenticationService {
   }
 
   @override
-  Future<EditUserDto> edit(EditUserDto editUserDto, String id) async {
+  Future<User> edit(EditUserDto editUserDto, String id) async {
     dynamic response = await _authenticationRepository.edit(editUserDto, id);
 
     if (response != null) {

@@ -31,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final box = GetStorage();
 
   set _imageFile(XFile? value) {
-    _imageFileList = value == null ? null : <XFile>[value];
+    _imageFileList = value == null ? [] : <XFile>[value];
   }
 
   var url = "https://i.ibb.co/RDRz7Ft/upload.png";
@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
         BlocProvider(create: (context) => ImagePickBloc(userService))
       ],
       child: Scaffold(
-        backgroundColor: AnimangaStyle.blackColor,
+        backgroundColor: AnimangaStyle.whiteColor,
         body: RefreshIndicator(
           onRefresh: () async {},
           child: SingleChildScrollView(
