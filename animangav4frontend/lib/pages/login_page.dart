@@ -168,14 +168,14 @@ class _LoginPageState extends State<LoginPage> {
                           AnimangaStyle.formColor, AnimangaStyle.textSizeTwo),
                       prefixIcon: const Padding(
                         padding: EdgeInsets.only(left: 5),
-                        child: Icon(Icons.email_rounded),
+                        child: Icon(Icons.person),
                       ),
-                      hintText: 'correo electrónico',
+                      hintText: 'Nombre de usuario',
                     ),
                     onSaved: (String? value) {},
                     validator: (String? value) {
                       return (value == null)
-                          ? 'Introduzca su correo electrónico'
+                          ? 'Introduzca su correo nombre de usuario'
                           : null;
                     },
                   ),

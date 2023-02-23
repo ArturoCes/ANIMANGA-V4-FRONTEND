@@ -35,7 +35,6 @@ class _ProfilePageState extends State<ProfilePage> {
     _imageFileList = value == null ? [] : <XFile>[value];
   }
 
-
   @override
   void initState() {
     userService = GetIt.instance<UserService>();
@@ -116,7 +115,8 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Center(
             child: Text(utf8.decode(userLogged.username.codeUnits),
                 style: AnimangaStyle.textCustom(
-                    Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeThree)),
+                    Color.fromARGB(255, 148, 3, 139),
+                    AnimangaStyle.textSizeThree)),
           ),
         ),
         Row(
@@ -133,7 +133,7 @@ class _ProfilePageState extends State<ProfilePage> {
               },
               icon: const Icon(
                 Icons.edit,
-                color:Color.fromARGB(255, 148, 3, 139),
+                color: Color.fromARGB(255, 148, 3, 139),
               ),
             )
           ],
@@ -152,7 +152,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Text(
                   "Nombre:",
                   style: AnimangaStyle.textCustom(
-                    Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeTwo),
+                      Color.fromARGB(255, 148, 3, 139),
+                      AnimangaStyle.textSizeTwo),
                 ),
               ),
               Padding(
@@ -160,9 +161,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Text(
                   utf8.decode(userLogged.fullName.codeUnits),
                   style: AnimangaStyle.textCustom(
-                      Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeTwo),
+                      Color.fromARGB(255, 148, 3, 139),
+                      AnimangaStyle.textSizeTwo),
                 ),
-              )],
+              )
+            ],
           ),
         ),
         Container(
@@ -179,7 +182,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Text(
                   "Nombre de usuario:",
                   style: AnimangaStyle.textCustom(
-                   Color.fromARGB(255, 148, 3, 139),AnimangaStyle.textSizeTwo),
+                      Color.fromARGB(255, 148, 3, 139),
+                      AnimangaStyle.textSizeTwo),
                 ),
               ),
               Padding(
@@ -187,7 +191,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Text(
                   utf8.decode(userLogged.username.codeUnits),
                   style: AnimangaStyle.textCustom(
-                     Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeTwo),
+                      Color.fromARGB(255, 148, 3, 139),
+                      AnimangaStyle.textSizeTwo),
                 ),
               ),
             ],
@@ -205,16 +210,18 @@ class _ProfilePageState extends State<ProfilePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
-                  "Fecha de creación:",
+                  "Correo electrónico:",
                   style: AnimangaStyle.textCustom(
-                      Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeTwo),
+                      Color.fromARGB(255, 148, 3, 139),
+                      AnimangaStyle.textSizeTwo),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(utf8.decode(userLogged.email.codeUnits),
                     style: AnimangaStyle.textCustom(
-                       Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeTwo)),
+                        Color.fromARGB(255, 148, 3, 139),
+                        AnimangaStyle.textSizeTwo)),
               )
             ],
           ),
@@ -225,8 +232,8 @@ class _ProfilePageState extends State<ProfilePage> {
             style: ElevatedButton.styleFrom(
               primary: AnimangaStyle.formColor,
               shape: RoundedRectangleBorder(
-                side:
-                    const BorderSide(color: Color.fromARGB(255, 131, 0, 146), width: 2),
+                side: const BorderSide(
+                    color: Color.fromARGB(255, 131, 0, 146), width: 2),
                 borderRadius: BorderRadius.circular(25),
               ),
               elevation: 15.0,
@@ -237,7 +244,8 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Text(
               "Cambiar contraseña",
               style: AnimangaStyle.textCustom(
-                 Color.fromARGB(255, 245, 245, 245),AnimangaStyle.textSizeTwo),
+                  Color.fromARGB(255, 245, 245, 245),
+                  AnimangaStyle.textSizeTwo),
             ),
           ),
         ),
@@ -275,7 +283,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: const Text(
                                   'No',
                                   style: TextStyle(
-                                    color:AnimangaStyle.whiteColor,
+                                    color: AnimangaStyle.whiteColor,
                                   ),
                                 ),
                               ),
@@ -308,21 +316,21 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget image(String imageUrl) {
-         return Container(
-          width: 130,
-          height: 130,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(
-                    box.read("image")!,
-                    /*  headers: {
+    return Container(
+        width: 130,
+        height: 130,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+                fit: BoxFit.fill,
+                image: NetworkImage(
+                  box.read("image")!,
+                  /*  headers: {
                             'Authorization':
                                 'Bearer ${PreferenceUtils.getString('token')}'
                           }, */
-                  ))));
-    }
+                ))));
+  }
 
   Widget buildProfile(BuildContext context, state) {
     return SizedBox(
@@ -332,7 +340,8 @@ class _ProfilePageState extends State<ProfilePage> {
           Center(
             child: Text("MI PERFIL",
                 style: AnimangaStyle.textCustom(
-                    Color.fromARGB(255, 148, 3, 139), AnimangaStyle.textSizeFive)),
+                    Color.fromARGB(255, 148, 3, 139),
+                    AnimangaStyle.textSizeFive)),
           ),
           GestureDetector(
               onTap: () {
