@@ -21,7 +21,7 @@ class EditUserBloc extends Bloc<EditUserEvent, EditUserState> {
 
   void _editProfile(EditOneUserEvent event, Emitter<EditUserState> emit) async {
     try {
-      var user = await _userService.edit(event.editUserDto, event.id);
+      var user = await _userService.edit(event.editUserDto);
 
       emit(EditUserSuccessState(user as User));
     } on ErrorResponse catch (e) {

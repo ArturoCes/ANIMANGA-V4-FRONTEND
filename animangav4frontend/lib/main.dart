@@ -1,4 +1,5 @@
 import 'package:animangav4frontend/pages/pages.dart';
+import 'package:animangav4frontend/pages/password_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'config/locator.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
           '/manga': (context) => const MangasPage(),
           '/register': (context) => const RegisterPage(),
           '/detail': (context) => const MangaPage(),
+          '/changepassword': (context)=> const PasswordPage()
         });
   }
 }

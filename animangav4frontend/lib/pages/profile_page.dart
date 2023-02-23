@@ -113,37 +113,48 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         Center(
           child: Center(
-            child: Text(utf8.decode(userLogged.username.codeUnits),
-                style: AnimangaStyle.textCustom(
-                    Color.fromARGB(255, 148, 3, 139),
-                    AnimangaStyle.textSizeThree)),
+            child: Text(
+              utf8.decode(userLogged.username.codeUnits),
+              style: TextStyle(
+                color: Color.fromARGB(255, 148, 3, 139),
+                fontSize: AnimangaStyle.textSizeThree,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
+        SizedBox(height: 16),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
+                Navigator.of(context).push(
+                  MaterialPageRoute(
                     builder: (context) => ProfileEditPage(
-                        fullName: userLogged.fullName,
-                        email: userLogged.email,
-                        username: userLogged.username,
-                        id: userLogged.id)));
+                      fullName: userLogged.fullName,
+                      email: userLogged.email,
+                      username: userLogged.username,
+                      id: userLogged.id,
+                    ),
+                  ),
+                );
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.edit,
                 color: Color.fromARGB(255, 148, 3, 139),
               ),
-            )
+            ),
           ],
         ),
+        SizedBox(height: 16),
         Container(
           height: 40,
-          margin: const EdgeInsets.all(8),
+          margin: EdgeInsets.all(8),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: AnimangaStyle.greyBoxColor1),
+            borderRadius: BorderRadius.circular(20),
+            color: AnimangaStyle.greyBoxColor1,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -151,29 +162,33 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
                   "Nombre:",
-                  style: AnimangaStyle.textCustom(
-                      Color.fromARGB(255, 148, 3, 139),
-                      AnimangaStyle.textSizeTwo),
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 148, 3, 139),
+                    fontSize: AnimangaStyle.textSizeTwo,
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
                   utf8.decode(userLogged.fullName.codeUnits),
-                  style: AnimangaStyle.textCustom(
-                      Color.fromARGB(255, 148, 3, 139),
-                      AnimangaStyle.textSizeTwo),
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 148, 3, 139),
+                    fontSize: AnimangaStyle.textSizeTwo,
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),
+        SizedBox(height: 8),
         Container(
           height: 40,
-          margin: const EdgeInsets.all(8),
+          margin: EdgeInsets.all(8),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: AnimangaStyle.greyBoxColor1),
+            borderRadius: BorderRadius.circular(20),
+            color: AnimangaStyle.greyBoxColor1,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -181,29 +196,33 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
                   "Nombre de usuario:",
-                  style: AnimangaStyle.textCustom(
-                      Color.fromARGB(255, 148, 3, 139),
-                      AnimangaStyle.textSizeTwo),
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 148, 3, 139),
+                    fontSize: AnimangaStyle.textSizeTwo,
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
                   utf8.decode(userLogged.username.codeUnits),
-                  style: AnimangaStyle.textCustom(
-                      Color.fromARGB(255, 148, 3, 139),
-                      AnimangaStyle.textSizeTwo),
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 148, 3, 139),
+                    fontSize: AnimangaStyle.textSizeTwo,
+                  ),
                 ),
               ),
             ],
           ),
         ),
+        SizedBox(height: 8),
         Container(
           height: 40,
-          margin: const EdgeInsets.all(8),
+          margin: EdgeInsets.all(8),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: AnimangaStyle.greyBoxColor1),
+            borderRadius: BorderRadius.circular(20),
+            color: AnimangaStyle.greyBoxColor1,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -211,9 +230,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
                   "Correo electrónico:",
-                  style: AnimangaStyle.textCustom(
-                      Color.fromARGB(255, 148, 3, 139),
-                      AnimangaStyle.textSizeTwo),
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 148, 3, 139),
+                    fontSize: AnimangaStyle.textSizeTwo,
+                  ),
                 ),
               ),
               Padding(

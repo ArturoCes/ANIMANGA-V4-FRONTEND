@@ -91,23 +91,59 @@ class _MangaPageState extends State<MangaPage> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  Widget buildOne(context, Manga manga) {
+  Widget buildOne(BuildContext context, Manga manga) {
     return Center(
       child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Image.network(
-                ApiConstants.imageBaseUrl + manga.posterPath,
-                width: MediaQuery.of(context).size.width,
-                height: 190,
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 390,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  ApiConstants.imageBaseUrl + manga.posterPath,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
-              Text('Nombre de la obra: ' + manga.name),
-              Text('Descripción: ' + manga.description),
-              Text('Autor de la obra: ' + manga.author),
-              Text('Fecha de salida: ' + manga.releaseDate)
-            ],
-          )),
+            ),
+            SizedBox(height: 16),
+            Text(
+              manga.name,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              manga.description,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Autor: ' + manga.author,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Fecha de publicación: ' + manga.releaseDate,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

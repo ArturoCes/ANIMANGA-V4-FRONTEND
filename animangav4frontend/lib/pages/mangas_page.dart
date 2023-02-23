@@ -122,44 +122,44 @@ class _MangasPageState extends State<MangasPage> {
         margin: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Color.fromARGB(255, 82, 1, 68),
+          color: Color(0xFF520144),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
+          ],
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(14),
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(2.0),
-                  child: Image.network(
-                    ApiConstants.imageBaseUrl + manga.posterPath,
-                    /*   headers: {
-                            'Authorization':
-                                '${box.read('token')}'
-                          },*/
-                    width: MediaQuery.of(context).size.width / 2,
-                    height: MediaQuery.of(context).size.width / 2.5,
-                    fit: BoxFit.fitWidth,
-                  )),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.width / 8,
-              width: MediaQuery.of(context).size.width / 2.6,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    utf8.decode(manga.name.codeUnits),
-                    style: AnimangaStyle.textCustom(
-                        Color.fromARGB(255, 255, 255, 255),
-                        AnimangaStyle.textSizeFour),
-                    textAlign: TextAlign.start,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  )
-                ],
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: AspectRatio(
+                aspectRatio: 3 /3,
+                child: Image.network(
+                  ApiConstants.imageBaseUrl + manga.posterPath,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
-            )
+            ),
+            SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                utf8.decode(manga.name.codeUnits),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            SizedBox(height: 8),
           ],
         ),
       ),

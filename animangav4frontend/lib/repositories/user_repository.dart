@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:animangav4frontend/models/edit_user_dto.dart';
+import 'package:animangav4frontend/models/password_dto.dart';
 import 'package:animangav4frontend/models/user.dart';
 import 'package:animangav4frontend/rest/rest_client.dart';
 import 'package:get_it/get_it.dart';
@@ -34,10 +35,18 @@ class UserRepository {
     return User.fromJson(jsonDecode(jsonResponse));
   }
 
-  Future<dynamic> edit(EditUserDto editUserDto, String id) async {
+  Future<dynamic> edit(EditUserDto editUserDto) async {
     String url = "/${box.read('idUser')}";
 
     var jsonResponse = await _client.multipartRequest(url,editUserDto);
     return jsonResponse;
   }
+
+    Future<dynamic> editPassword(PasswordDto passwordDto) async {
+    String url = "/change";
+
+    var jsonResponse = await _client.multipartRequest(url,passwordDto);
+    return jsonResponse;
+  }
+  
 }

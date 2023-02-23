@@ -1,4 +1,4 @@
-import 'package:animangav4frontend/blocs/edit_bloc/edit_bloc.dart';
+import 'package:animangav4frontend/blocs/edit_user/edit_bloc.dart';
 import 'package:animangav4frontend/models/edit_user_dto.dart';
 import 'package:animangav4frontend/models/errors.dart';
 import 'package:animangav4frontend/pages/navigation_bard.dart';
