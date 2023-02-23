@@ -29,7 +29,7 @@ class ImagePickBloc extends Bloc<ImagePickEvent, ImagePickState> {
       );
       if (pickedFile != null) {
         final user = await _userService.uploadImage(
-            pickedFile.path, box.read("idUser") ?? "");
+            pickedFile.path, box.read("idUser") ?? "",'image');
         box.write('image', user.image);
         emit(ImageSelectedSuccessState(pickedFile));
       } else {

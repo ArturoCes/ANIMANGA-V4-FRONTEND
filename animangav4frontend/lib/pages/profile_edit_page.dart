@@ -2,7 +2,6 @@ import 'package:animangav4frontend/blocs/edit_bloc/edit_bloc.dart';
 import 'package:animangav4frontend/models/edit_user_dto.dart';
 import 'package:animangav4frontend/models/errors.dart';
 import 'package:animangav4frontend/pages/navigation_bard.dart';
-import 'package:animangav4frontend/services/authentication_service.dart';
 import 'package:animangav4frontend/services/services.dart';
 import 'package:animangav4frontend/utils/styles.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';

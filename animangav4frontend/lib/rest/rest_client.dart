@@ -99,6 +99,33 @@ class RestClient {
     }
   }
 
+
+
+   Future<dynamic> multipartRequestFile(String url, String filename, String tipo) async {
+    Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': 'Bearer ${box.read('token')}'
+    };
+  
+    Uri uri = Uri.parse(ApiConstants.baseUrl + url);
+    print(uri.toString());
+
+    final request = http.MultipartRequest('POST', uri);
+    request.files.add(await http.MultipartFile.fromPath(tipo,filename));
+    
+ 
+    request.headers.addAll(headers);
+    var res = await request.send();
+    final response = await res.stream.bytesToString();
+    if (res.statusCode == 200) {
+      User user = User.fromJson(json.decode(response));
+      return user;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response));
+      throw error;
+    }
+  }
+
   dynamic _response(http.Response response) {
     print(response.statusCode);
     switch (response.statusCode) {

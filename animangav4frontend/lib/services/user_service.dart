@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import '../repositories/user_repository.dart';
 
 abstract class UserServiceI {
-  Future<User> uploadImage(String filename, String id);
+  Future<User> uploadImage(String filename, String id, String tipo);
   Future<User> userLogged();
   Future<dynamic> edit(EditUserDto editUserDto, String id);
 }
@@ -20,14 +20,9 @@ class UserService extends UserServiceI{
   }
 
   @override
-  Future<User> uploadImage(String filename, String id) async {
-    dynamic response =
-        await _userRepository.uploadImage(filename, id);
-    if (response != null) {
-      return response;
-    } else {
-      throw Exception("Error al subir la imagen");
-    }
+  Future<User> uploadImage(String filename, String id, String tipo) async {
+  dynamic response = await _userRepository.uploadImage(filename, id,tipo);
+    return response;
   }
 
   @override
