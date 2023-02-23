@@ -19,9 +19,6 @@ class UserRepository {
   Future<dynamic> uploadImage(String filename, String id, String tipo) async {
     String url = "/image/${id}";
     
-     Map<String, String> headers = {
-      'Authorization': 'Bearer ${box.read('token')}'
-    };
     var jsonResponse = await _client.multipartRequestFile(url, filename, tipo);
     return jsonResponse;
 
