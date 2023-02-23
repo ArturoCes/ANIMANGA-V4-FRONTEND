@@ -11,9 +11,9 @@ import 'package:http_parser/http_parser.dart';
 import '../models/errors.dart';
 
 class ApiConstants {
-  static String baseUrl = "http://localhost:8080";
+  // static String baseUrl = "http://localhost:8080";
   static String imageBaseUrl = baseUrl + "/download/";
-  //static String baseUrl = "http://10.0.2.2:8080";
+  static String baseUrl = "http://10.0.2.2:8080";
 }
 
 class HeadersApiInterceptor implements InterceptorContract {
@@ -99,21 +99,19 @@ class RestClient {
     }
   }
 
-
-
-   Future<dynamic> multipartRequestFile(String url, String filename, String tipo) async {
+  Future<dynamic> multipartRequestFile(
+      String url, String filename, String tipo) async {
     Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
       'Authorization': 'Bearer ${box.read('token')}'
     };
-  
+
     Uri uri = Uri.parse(ApiConstants.baseUrl + url);
     print(uri.toString());
 
-    final request = http.MultipartRequest('POST', uri);
-    request.files.add(await http.MultipartFile.fromPath(tipo,filename));
-    
- 
+    final request = http.MultipartRequest('PUT', uri);
+    request.files.add(await http.MultipartFile.fromPath(tipo, filename));
+
     request.headers.addAll(headers);
     var res = await request.send();
     final response = await res.stream.bytesToString();
