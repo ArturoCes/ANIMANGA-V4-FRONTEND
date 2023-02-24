@@ -171,7 +171,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
-                  utf8.decode(userLogged.fullName.codeUnits),
+                  userLogged.fullName,
                   style: TextStyle(
                     color: Color.fromARGB(255, 148, 3, 139),
                     fontSize: AnimangaStyle.textSizeTwo,
