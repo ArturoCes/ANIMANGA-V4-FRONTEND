@@ -1,183 +1,273 @@
-import 'package:animangav4frontend/pages/register_page.dart';
+import 'dart:io';
+import 'package:animangav4frontend/blocs/blocs.dart';
+import 'package:animangav4frontend/models/errors.dart';
+import 'package:animangav4frontend/models/login_error.dart';
+import 'package:animangav4frontend/pages/navigation_bard.dart';
+import 'package:animangav4frontend/services/authentication_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/blocs.dart';
+
+import '../blocs/login/login_dto.dart';
 import '../config/locator.dart';
-import '../services/services.dart';
+import '../utils/styles.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login'),
-      ),
-      body: SafeArea(
-          minimum: const EdgeInsets.all(16),
-          child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-            builder: (context, state) {
-              final authBloc = BlocProvider.of<AuthenticationBloc>(context);
-              if (state is AuthenticationNotAuthenticated) {
-                return _AuthForm();
-              }
-              if (state is AuthenticationFailure) {
-                return Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(state.message),
-                    TextButton(
-                      child: Text('Retry'),
-                      onPressed: () {
-                        authBloc.add(AppLoaded());
-                      },
-                    )
-                  ],
-                ));
-              }
-              return Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                ),
-              );
-            },
-          )),
-    );
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  late AuthenticationService authenticationService;
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  bool _obscureText = true;
+  Icon iconpass = const Icon(Icons.remove_red_eye_outlined);
+
+  @override
+  void initState() {
+    authenticationService = getIt<JwtAuthenticationService>();
+    super.initState();
   }
-}
 
-class _AuthForm extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final authService = getIt<JwtAuthenticationService>();
-    final authBloc = BlocProvider.of<AuthenticationBloc>(context);
-
-    return Container(
-      alignment: Alignment.center,
-      child: BlocProvider<LoginBloc>(
-        create: (context) => LoginBloc(authBloc, authService),
-        child: _SignInForm(),
-      ),
-    );
-  }
-}
-
-class _SignInForm extends StatefulWidget {
-  @override
-  __SignInFormState createState() => __SignInFormState();
-}
-
-class __SignInFormState extends State<_SignInForm> {
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  final _passwordController = TextEditingController();
-  final _emailController = TextEditingController();
-  bool _autoValidate = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final _loginBloc = BlocProvider.of<LoginBloc>(context);
-
-    _onLoginButtonPressed() {
-      if (_key.currentState!.validate()) {
-        _loginBloc.add(LoginInWithUsernameButtonPressed(
-            username: _emailController.text,
-            password: _passwordController.text));
-      } else {
-        setState(() {
-          _autoValidate = true;
-        });
-      }
-    }
-
-    return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) {
-        if (state is LoginFailure) {
-          _showError(state.error);
-        }
-      },
-      child: BlocBuilder<LoginBloc, LoginState>(
-        builder: (context, state) {
-          if (state is LoginLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return Form(
-            key: _key,
-            autovalidateMode: _autoValidate
-                ? AutovalidateMode.always
-                : AutovalidateMode.disabled,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Username',
-                      filled: true,
-                      isDense: true,
-                    ),
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    autocorrect: false,
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Email is required.';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      filled: true,
-                      isDense: true,
-                    ),
-                    obscureText: true,
-                    controller: _passwordController,
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Password is required.';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  SizedBox(
-                    width: 100,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterPage()));
-                      },
-                      child: Text('Register'),
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size.fromHeight(40),
-                    ),
-                    child: Text('LOG IN'),
-                    onPressed:
-                        state is LoginLoading ? () {} : _onLoginButtonPressed,
-                  )
-                ],
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            content: const Text(
+              '¿Deseas salir de la aplicación?',
+              style: TextStyle(
+                color: Color.fromARGB(255, 189, 72, 224),
               ),
             ),
-          );
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: const Text(
+                      'No',
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 211, 26, 211)),
+                    ),
+                  ),
+                  TextButton(
+                      onPressed: () => exit(0),
+                      child: const Text(
+                        'Si',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 170, 2, 170),
+                        ),
+                      )),
+                ],
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+        create: (context) {
+          return LoginBloc(authenticationService);
         },
+        child: _createBody(context));
+  }
+
+  Widget _createBody(BuildContext context) {
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        body: Center(
+          child: Container(
+              padding: const EdgeInsets.all(20),
+              child: BlocConsumer<LoginBloc, LoginState>(
+                  listenWhen: (context, state) {
+                return state is LoginSuccess || state is LoginFailure;
+              }, listener: (context, state) {
+                if (state is LoginSuccess) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => BottomNavBar()),
+                  );
+                } else if (state is LoginFailure) {
+                  _showSnackbar(context, state.error);
+                }
+              }, buildWhen: (context, state) {
+                return state is LoginInitial || state is LoginLoading;
+              }, builder: (ctx, state) {
+                if (state is LoginInitial) {
+                  return buildForm(ctx);
+                } else if (state is LoginLoading) {
+                  return buildForm(ctx);
+                } else {
+                  return buildForm(ctx);
+                }
+              })),
+        ),
       ),
     );
   }
 
-  void _showError(String error) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+  void _showSnackbar(BuildContext context, LoginError loginError) {
+    final snackBar = SnackBar(
+      content: Text(loginError.message),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+      if (_obscureText) {
+        iconpass = const Icon(Icons.remove_red_eye_outlined);
+      } else {
+        iconpass = const Icon(Icons.remove_red_eye);
+      }
+    });
+  }
+
+  Widget buildForm(BuildContext context) {
+    return Center(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Container(
+          margin: const EdgeInsets.only(top: 140),
+          width: 300,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 150,
+                ),
+                Container(
+                  height: 50,
+                  margin: const EdgeInsets.only(top: 70),
+                  child: TextFormField(
+                    style: AnimangaStyle.textCustom(
+                        Color.fromARGB(255, 168, 16, 238),
+                        AnimangaStyle.textSizeTwo),
+                    controller: emailController,
+                    textAlignVertical: TextAlignVertical.bottom,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AnimangaStyle.greyBoxColor,
+                      border: OutlineInputBorder(
+                          gapPadding: AnimangaStyle.bodyPadding),
+                      hintStyle: AnimangaStyle.textCustom(
+                          AnimangaStyle.formColor, AnimangaStyle.textSizeTwo),
+                      prefixIcon: const Padding(
+                        padding: EdgeInsets.only(left: 5),
+                        child: Icon(Icons.person),
+                      ),
+                      hintText: 'Nombre de usuario',
+                    ),
+                    onSaved: (String? value) {},
+                    validator: (String? value) {
+                      return (value == null)
+                          ? 'Introduzca su correo nombre de usuario'
+                          : null;
+                    },
+                  ),
+                ),
+                Container(
+                  height: 50,
+                  margin: const EdgeInsets.only(top: 20),
+                  child: TextFormField(
+                    style: AnimangaStyle.textCustom(
+                        Color.fromARGB(255, 168, 16, 238),
+                        AnimangaStyle.textSizeTwo),
+                    controller: passwordController,
+                    obscureText: _obscureText,
+                    textAlignVertical: TextAlignVertical.bottom,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AnimangaStyle.greyBoxColor,
+                      border: OutlineInputBorder(
+                          gapPadding: AnimangaStyle.bodyPadding),
+                      hintStyle: AnimangaStyle.textCustom(
+                          AnimangaStyle.formColor, AnimangaStyle.textSizeTwo),
+                      suffixIcon: GestureDetector(
+                          onTap: () {
+                            _toggle();
+                          },
+                          child: iconpass),
+                      suffixIconColor: Color.fromARGB(255, 160, 37, 172),
+                      prefixIcon: const Padding(
+                        padding: EdgeInsets.only(left: 5),
+                        child: Icon(Icons.lock_clock_rounded),
+                      ),
+                      hintText: 'Contraseña',
+                    ),
+                    onSaved: (String? value) {},
+                    validator: (value) {
+                      return (value == null || value.isEmpty)
+                          ? 'Escribe tu contraseña'
+                          : null;
+                    },
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(100)),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  width: 300,
+                  height: 80,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: AnimangaStyle.primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        elevation: 15.0,
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          final loginDto = LoginDto(
+                              username: emailController.text,
+                              password: passwordController.text);
+                          BlocProvider.of<LoginBloc>(context)
+                              .add(LoginInWithUsernameButtonPressed(loginDto));
+                        }
+                      },
+                      child: Text(
+                        'Iniciar Sesión',
+                        style: AnimangaStyle.textCustom(
+                            Color.fromARGB(255, 255, 253, 253),
+                            AnimangaStyle.textSizeThree),
+                        textAlign: TextAlign.center,
+                      )),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  child: GestureDetector(
+                    child: Text(
+                      'Registrarse',
+                      style: AnimangaStyle.textCustom(
+                          Color.fromARGB(255, 134, 12, 123),
+                          AnimangaStyle.textSizeThree),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/register');
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

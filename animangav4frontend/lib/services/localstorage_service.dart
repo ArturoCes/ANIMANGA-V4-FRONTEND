@@ -4,21 +4,12 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/*@Order(-2)
-@module
-abstract class InjectableSharedPreferences {
-  
-  @preResolve  
-  Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
-}*/
-
-//@Order(-1)
-//@singleton
 class LocalStorageService {
   const LocalStorageService();
 
   static late LocalStorageService _instance;
   static late SharedPreferences _preferences;
+
   static Future<LocalStorageService> getInstance() async {
     print("Aquí se entra");
 

@@ -1,5 +1,4 @@
-import 'package:animangav4frontend/blocs/authentication/authentication_bloc.dart';
-import 'package:animangav4frontend/blocs/authentication/authentication_event.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../config/locator.dart';
@@ -13,7 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authBloc = BlocProvider.of<AuthenticationBloc>(context);
+   
     return Scaffold(
       appBar: AppBar(
         title: Text('Home Page'),
@@ -24,7 +23,7 @@ class HomePage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                'Welcome, ${user.name}',
+                'Welcome, ${user.fullName}',
                 style: TextStyle(fontSize: 24),
               ),
               const SizedBox(
@@ -37,7 +36,7 @@ class HomePage extends StatelessWidget {
                 ),
                 child: Text('Logout'),
                 onPressed: () {
-                  authBloc.add(UserLoggedOut());
+             
                 },
               )
             ],

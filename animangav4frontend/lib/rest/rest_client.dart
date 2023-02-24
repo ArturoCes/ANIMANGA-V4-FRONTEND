@@ -1,18 +1,18 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:animangav4frontend/models/login_error.dart';
 import 'package:animangav4frontend/models/user.dart';
-import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:injectable/injectable.dart';
 import 'package:http/http.dart' as http;
-
-import '../main.dart';
-import '../services/localstorage_service.dart';
+import 'package:http_parser/http_parser.dart';
+import '../models/errors.dart';
 
 class ApiConstants {
   static String baseUrl = "http://localhost:8080";
+  static String imageBaseUrl = baseUrl + "/download/";
   //static String baseUrl = "http://10.0.2.2:8080";
 }
 
@@ -37,15 +37,17 @@ class HeadersApiInterceptor implements InterceptorContract {
 @singleton
 class RestClient {
   RestClient();
-
+  final box = GetStorage();
+  //final _httpClient = http.Client();
   final _httpClient =
       InterceptedClient.build(interceptors: [HeadersApiInterceptor()]);
 
-  Future<dynamic> get(String url) async {
+  Future<dynamic> get(String url,
+      {required Map<String, String> headers}) async {
     try {
       Uri uri = Uri.parse(ApiConstants.baseUrl + url);
 
-      final response = await _httpClient.get(uri);
+      final response = await _httpClient.get(uri, headers: headers);
       var responseJson = _response(response);
       return responseJson;
     } on SocketException catch (ex) {
@@ -68,6 +70,60 @@ class RestClient {
     }
   }
 
+  Future<dynamic> multipartRequest(String url, dynamic body) async {
+    Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${box.read('token')}'
+    };
+
+    Uri uri = Uri.parse(ApiConstants.baseUrl + url);
+    print(uri.toString());
+
+    final request = http.MultipartRequest('PUT', uri);
+    request.files.add(http.MultipartFile.fromString(
+      'user',
+      jsonEncode(body.toJson()),
+      contentType: MediaType('application', 'json'),
+      filename: "user",
+    ));
+    request.headers.addAll(headers);
+    var res = await request.send();
+    final response = await res.stream.bytesToString();
+    if (res.statusCode == 200) {
+      User user = User.fromJson(json.decode(response));
+      return user;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response));
+      throw error;
+    }
+  }
+
+  Future<dynamic> multipartRequestFile(
+      String url, String filename, String tipo) async {
+    Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': 'Bearer ${box.read('token')}'
+    };
+
+    Uri uri = Uri.parse(ApiConstants.baseUrl + url);
+    print(uri.toString());
+
+    final request = http.MultipartRequest('PUT', uri);
+    request.files.add(await http.MultipartFile.fromPath(tipo, filename));
+
+    request.headers.addAll(headers);
+    var res = await request.send();
+    final response = await res.stream.bytesToString();
+    if (res.statusCode == 200) {
+      User user = User.fromJson(json.decode(response));
+      return user;
+    } else {
+      final error = ErrorResponse.fromJson(json.decode(response));
+      throw error;
+    }
+  }
+
   dynamic _response(http.Response response) {
     print(response.statusCode);
     switch (response.statusCode) {
@@ -78,9 +134,17 @@ class RestClient {
       case 204:
         return;
       case 400:
-        throw BadRequestException(utf8.decode(response.bodyBytes));
+        if (response.body.isNotEmpty) {
+          throw ErrorResponse.fromJson(jsonDecode(response.body));
+        } else {
+          throw BadRequestException();
+        }
       case 401:
-        throw AuthenticationException(utf8.decode(response.bodyBytes));
+        if (response.body.isNotEmpty) {
+          throw LoginError.fromJson(jsonDecode(response.body));
+        } else {
+          throw AuthenticationException(utf8.decode(response.bodyBytes));
+        }
       case 403:
         throw UnauthorizedException(utf8.decode(response.bodyBytes));
       case 404:

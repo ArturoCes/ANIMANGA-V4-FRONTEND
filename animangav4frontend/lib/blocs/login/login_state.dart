@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import '../../models/login_error.dart';
 
 abstract class LoginState extends Equatable {
   @override
@@ -12,7 +13,7 @@ class LoginLoading extends LoginState {}
 class LoginSuccess extends LoginState {}
 
 class LoginFailure extends LoginState {
-  final String error;
+  final LoginError error;
 
   LoginFailure({required this.error});
 

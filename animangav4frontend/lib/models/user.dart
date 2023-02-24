@@ -1,15 +1,36 @@
 class User {
-  final String name;
-  final String email;
-  final String accessToken;
-  final String? image;
+  User({
+    required this.id,
+    required this.image,
+    required this.username,
+    required this.fullName,
+    required this.email,
+    required this.createdAt,
+  });
+  late final String id;
+  late final String image;
+  late final String username;
+  late final String fullName;
+  late final String email;
+  late final String createdAt;
 
-  User(
-      {required this.name,
-      required this.email,
-      required this.accessToken,
-      this.image});
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    image = json['image'];
+    username = json['username'];
+    fullName = json['fullName'];
+    email = json['email'];
+    createdAt = json['createdAt'];
+  }
 
-  @override
-  String toString() => 'User { name: $name, email: $email}';
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['image'] = image;
+    _data['username'] = username;
+    _data['fullName'] = fullName;
+    _data['email'] = email;
+    _data['createdAt'] = createdAt;
+    return _data;
+  }
 }
