@@ -14,3 +14,7 @@ Frontend movil realizado con flutter siguiendo el patrón bloc para gestionar la
 Esta apliación responde a la API creada en el proyecto ANIMANGA-V4-BACKEND disponible en este perfil.
 # Autor
   ## Arturo Céspedes Pedrazas  | Github : [Perfil de github](https://github.com/ArturoCes)
+## Usuarios  
+### usuario : contraseña
+ - user : user
+ - admin : admin
